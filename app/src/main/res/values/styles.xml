@@ -1,11 +1,44 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.DOF" parent="Theme.MaterialComponents.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryVariant</item>
+
+        <item name="colorSecondary">@color/colorSecondary</item>
+
+        <item name="toolbarStyle">@style/Widget.DOF.Toolbar</item>
     </style>
+
+    <style name="Theme.DOF.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="ThemeOverlay.DOF.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
+    <style name="ThemeOverlay.DOF.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+
+    <style name="Widget.DOF" parent="@android:style/Widget" />
+
+    <style name="Widget.DOF.Toolbar" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:theme">@style/Theme.DOF</item>
+        <item name="popupTheme">@style/ThemeOverlay.DOF.PopupOverlay</item>
+    </style>
+
+    <style name="Widget.DOF.Switch" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">?attr/colorPrimary</item>
+        <item name="colorPrimaryDark">?colorSecondaryVariant</item>
+        <item name="colorAccent">?attr/colorSecondary</item>
+    </style>
+
+    <style name="Widget.DOF.HorizontalLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/gray_divider</item>
+    </style>
+
 
 </resources>
