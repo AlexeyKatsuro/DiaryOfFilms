@@ -23,7 +23,7 @@ buildscript {
         dagger_version = '2.21'
         timber_version = '4.7.1'
         coroutines_version = '1.1.1'
-        room_version = '1.1.1'
+        room_version = '2.1.0-alpha03'
         mp_chart_version = 'v3.1.0-alpha'
 
         junit_version = '4.12'
