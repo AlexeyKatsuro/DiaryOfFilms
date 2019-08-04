@@ -19,6 +19,12 @@ fun <T> Fragment.lazyArg(operation: (Bundle) -> T): Lazy<T> = lazyFast {
     operation(args)
 }
 
+fun <T> Fragment.lazyArg(key: String): Lazy<T> = lazyArg {
+    @Suppress("UNCHECKED_CAST")
+    (it.get(key) as? T) ?: throw ClassCastException("Cannot cast argument by $key key")
+}
+
+
 inline fun <T : ViewDataBinding> T.executeAfter(block: T.() -> Unit) {
     block()
     executePendingBindings()

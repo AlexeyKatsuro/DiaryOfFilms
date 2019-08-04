@@ -8,7 +8,7 @@
         <item name="colorPrimaryDark">?attr/colorPrimaryVariant</item>
 
         <item name="colorSecondary">@color/colorSecondary</item>
-
+        <item name="chipRatingStyle">@style/Widget.DOF.RatingChip.Unelevated</item>
         <item name="toolbarStyle">@style/Widget.DOF.Toolbar</item>
     </style>
 
@@ -17,10 +17,15 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="ThemeOverlay.DOF.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
-    <style name="ThemeOverlay.DOF.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="ThemeOverlay.DOF.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="ThemeOverlay.DOF.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Widget.DOF" parent="@android:style/Widget" />
+
+    <style name="Widget.DOF.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox" />
+
+    <style name="Widget.DOF.Button" parent="Widget.MaterialComponents.Button" />
 
     <style name="Widget.DOF.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
@@ -40,5 +45,27 @@
         <item name="android:background">@color/gray_divider</item>
     </style>
 
+    <style name="Widget.DOF.RatingChip" parent="android:Widget">
+        <item name="android:background">@drawable/rating_chip_bg</item>
+        <item name="chip_rating_padding">@dimen/chip_rating_padding</item>
+        <item name="chip_rating_corner_radius">@dimen/chip_rating_corner_radius</item>
+        <item name="chip_rating_stroke_width">@dimen/chip_rating_stroke_width</item>
+        <item name="chip_rating_text_color">@null</item>
+        <item name="chip_rating_background_color">@null</item>
+        <item name="chip_rating_stroke_color">?attr/colorPrimary</item>
+        <item name="android:textColor">?chip_rating_text_color</item>
+        <item name="android:textAppearance">?textAppearanceSubtitle1</item>
+
+    </style>
+
+    <style name="Widget.DOF.RatingChip.Outline">
+        <item name="chip_rating_text_color">?attr/colorPrimary</item>
+        <item name="android:textAppearance">?textAppearanceSubtitle1</item>
+    </style>
+
+    <style name="Widget.DOF.RatingChip.Unelevated">
+        <item name="chip_rating_text_color">?attr/colorOnPrimary</item>
+        <item name="chip_rating_background_color">?attr/colorPrimary</item>
+    </style>
 
 </resources>

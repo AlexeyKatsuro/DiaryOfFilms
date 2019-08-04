@@ -15,7 +15,7 @@ import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFragment() {
+abstract class  BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFragment() {
 
     protected open lateinit var binding: VB
     protected open lateinit var viewModel: VM
@@ -33,8 +33,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFr
         viewModel = crateViewModel(viewModelFactory, viewModelClass)
     }
 
-    @CallSuper
-    override fun onCreateView(
+    final override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -55,4 +54,9 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFr
 
     protected open fun crateViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
         ViewModelProviders.of(this, provider).get(clazz.java)
+
+    protected inline fun withBinding(block: VB.()->Unit){
+        binding.apply(block)
+    }
+
 }
