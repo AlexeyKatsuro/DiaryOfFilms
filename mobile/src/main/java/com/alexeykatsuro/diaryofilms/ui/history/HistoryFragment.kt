@@ -9,6 +9,7 @@ import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BaseFragment
 import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.FragmentHistoryBinding
+import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
 import java.util.*
 import kotlin.reflect.KClass
@@ -33,11 +34,21 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>()
                     }
                 }
             }
+
+            setOnAddFilmClick {
+                showAdoptDialog()
+            }
         }
 
         repeat(150) {
             historyDataSource.add(getFilm(it.toLong()))
         }
+    }
+
+    private fun showAdoptDialog(){
+        val dialog = AdoptFilmFragment.newInstance()
+        dialog.setTargetFragment(this,0)
+        dialog.show(requireFragmentManager(), "AdoptFilmFragment")
     }
 
     fun getFilm(id: Long) =

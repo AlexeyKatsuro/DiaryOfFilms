@@ -3,6 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+
+        <variable
+            name="onAddFilmClick"
+            type="android.view.View.OnClickListener" />
+    </data>
+
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -14,10 +21,10 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
-                app:layout_scrollFlags="scroll"
-                app:title="@string/history_title"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:layout_scrollFlags="scroll"
+                app:title="@string/history_title" />
         </com.google.android.material.appbar.AppBarLayout>
 
 
@@ -25,9 +32,20 @@
             android:id="@+id/history_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:hasFixedSize="@{true}"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            tools:listitem="@layout/item_film_record"/>
+            tools:listitem="@layout/item_film_record" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/button_add_film"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="@{onAddFilmClick}"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/ic_action_add"
+            app:layout_anchor="@id/history_recycler"
+            app:layout_anchorGravity="bottom|end" />
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

@@ -1,6 +1,11 @@
 <resources>
     <dimen name="fab_margin">16dp</dimen>
 
+    <dimen name="horizontal_screen_margin">16dp</dimen>
+    <dimen name="vertical_screen_margin">16dp</dimen>
+    <dimen name="horizontal_screen_margin_half">8dp</dimen>
+    <dimen name="vertical_screen_margin_half">8dp</dimen>
+
     <dimen name="margin_extra_small">4dp</dimen>
     <dimen name="margin_small">8dp</dimen>
     <dimen name="margin_normal">16dp</dimen>

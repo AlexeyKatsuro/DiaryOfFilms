@@ -26,6 +26,8 @@
     <style name="Widget.DOF.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.FilledBox" />
 
     <style name="Widget.DOF.Button" parent="Widget.MaterialComponents.Button" />
+    <style name="Widget.DOF.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton" />
+    <style name="Widget.DOF.Button.UnelevatedButton" parent="Widget.MaterialComponents.Button.UnelevatedButton" />
 
     <style name="Widget.DOF.Toolbar" parent="Widget.AppCompat.Toolbar">
         <item name="android:background">?attr/colorPrimary</item>
