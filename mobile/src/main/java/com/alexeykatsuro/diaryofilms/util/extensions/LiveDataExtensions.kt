@@ -2,9 +2,14 @@ package com.alexeykatsuro.diaryofilms.util.extensions
 
 import androidx.lifecycle.*
 import com.alexeykatsuro.diaryofilms.util.Event
+import com.e.btex.util.EventObserver
 
-inline fun <T> LiveData<T>.observeK(owner: LifecycleOwner, crossinline observer: (T?) -> Unit) {
+inline fun <T> LiveData<T>.observeValue(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
     this.observe(owner, Observer { observer(it) })
+}
+
+inline fun <T> LiveData<Event<T>>.observeEvent(owner: LifecycleOwner, crossinline observer: (T) -> Unit) {
+    this.observe(owner, EventObserver { observer(it) })
 }
 
 inline fun <T> LiveData<T>.observeNotNull(
@@ -48,4 +53,8 @@ fun <T> MutableLiveData<Event<T>>.setEventValue(value: T) {
 
 fun MutableLiveData<Unit>.trigger() {
     value = Unit
+}
+
+fun MutableLiveData<Event<Unit>>.triggerEvent() {
+    value = Event(Unit)
 }

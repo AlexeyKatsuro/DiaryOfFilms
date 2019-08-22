@@ -72,7 +72,7 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewDataBinding, VM : BaseView
     protected open fun createViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
         ViewModelProviders.of(this, provider).get(clazz.java)
 
-    protected inline fun withBinding(block: VB.() -> Unit) {
-        binding.apply(block)
+    protected inline fun <T> withBinding(block: VB.() -> T): T {
+        return binding.block()
     }
 }

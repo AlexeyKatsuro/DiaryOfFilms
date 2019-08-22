@@ -12,7 +12,7 @@ import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.FragmentHistoryBinding
 import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
-import java.util.*
+import com.alexeykatsuro.diaryofilms.util.extensions.observeValue
 import kotlin.reflect.KClass
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>() {
@@ -41,21 +41,21 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>()
                 showAdoptDialog()
             }
         }
+    }
 
-        repeat(150) {
-            historyDataSource.add(getFilm(it.toLong()))
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        viewModel.allFilms.observeValue(viewLifecycleOwner) {
+            historyDataSource.set(
+                newItems = it,
+                areTheSame = { left, right -> left.id == right.id },
+                areContentsTheSame = { left, right -> left == right })
         }
     }
 
-    private fun showAdoptDialog(){
+    private fun showAdoptDialog() {
         val dialog = AdoptFilmFragment.newInstance()
-        dialog.setTargetFragment(this,0)
+        dialog.setTargetFragment(this, 0)
         dialog.show(requireFragmentManager(), "AdoptFilmFragment")
     }
-
-    fun getFilm(id: Long) =
-        FilmRecord(
-            id, "Интерстеллар", 2015, 8.0f, 7.5f, Date()
-        )
-
 }
