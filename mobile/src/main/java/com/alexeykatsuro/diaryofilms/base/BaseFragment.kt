@@ -31,7 +31,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFr
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = crateViewModel(viewModelFactory, viewModelClass)
+        viewModel = createViewModel(viewModelFactory, viewModelClass)
     }
 
     final override fun onCreateView(
@@ -53,7 +53,7 @@ abstract class BaseFragment<VB : ViewDataBinding, VM : BaseViewModel> : DaggerFr
     protected open fun createDataBinding(inflater: LayoutInflater, container: ViewGroup?): VB =
         inflater(inflater, container, false)
 
-    protected open fun crateViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
+    protected open fun createViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
         ViewModelProviders.of(this, provider).get(clazz.java)
 
     protected inline fun withBinding(block: VB.() -> Unit) {

@@ -1,7 +1,6 @@
 package com.alexeykatsuro.diaryofilms.base
 
-import android.app.AlertDialog
-import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +11,16 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import dagger.android.support.DaggerDialogFragment
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasAndroidInjector
+import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
-    DaggerDialogFragment() {
+abstract class BaseBottomSheetDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
+    BottomSheetDialogFragment(), HasAndroidInjector {
 
     protected open lateinit var binding: VB
     protected open lateinit var viewModel: VM
@@ -29,24 +32,37 @@ abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
     abstract val viewModelClass: KClass<VM>
     abstract val inflater: BindingInflater<VB>
 
-    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = createDataBinding(LayoutInflater.from(requireContext()), null)
-        return AlertDialog.Builder(requireContext())
-            .setView(binding.root)
-            .create()
+    @Inject
+    lateinit var androidInjector: DispatchingAndroidInjector<Any>
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
+
+    override fun androidInjector(): AndroidInjector<Any> {
+        return androidInjector
     }
 
     @CallSuper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         viewModel = createViewModel(viewModelFactory, viewModelClass)
     }
 
+    final override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = createDataBinding(inflater, container)
+        binding.lifecycleOwner = viewLifecycleOwner
+
+        return binding.root
+    }
 
     @CallSuper
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = viewLifecycleOwner
         navController = findNavController()
     }
 
