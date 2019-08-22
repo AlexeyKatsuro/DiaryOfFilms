@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.CallSuper
-import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -28,7 +27,7 @@ abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     abstract val viewModelClass: KClass<VM>
-    abstract val layoutId: Int
+    abstract val inflater: BindingInflater<VB>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         binding = createDataBinding(LayoutInflater.from(requireContext()), null)
@@ -52,7 +51,7 @@ abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
     }
 
     protected open fun createDataBinding(inflater: LayoutInflater, container: ViewGroup?): VB =
-        DataBindingUtil.inflate(inflater, layoutId, container, false)
+        inflater(inflater, container, false)
 
     protected open fun crateViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
         ViewModelProviders.of(this, provider).get(clazz.java)

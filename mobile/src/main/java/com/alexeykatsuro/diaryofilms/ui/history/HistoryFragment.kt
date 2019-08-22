@@ -7,6 +7,7 @@ import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BaseFragment
+import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.FragmentHistoryBinding
 import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment
@@ -16,7 +17,8 @@ import kotlin.reflect.KClass
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>() {
 
-    override val layoutId: Int = R.layout.fragment_history
+    override val inflater: BindingInflater<FragmentHistoryBinding> =
+        FragmentHistoryBinding::inflate
     override val viewModelClass: KClass<HistoryViewModel> = HistoryViewModel::class
 
     private val historyDataSource = emptyDataSourceTyped<FilmRecord>()

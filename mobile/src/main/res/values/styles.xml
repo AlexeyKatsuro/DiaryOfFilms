@@ -10,6 +10,7 @@
         <item name="colorSecondary">@color/colorSecondary</item>
         <item name="chipRatingStyle">@style/Widget.DOF.RatingChip.Unelevated</item>
         <item name="toolbarStyle">@style/Widget.DOF.Toolbar</item>
+        <item name="appBarLayoutStyle">@style/Widget.DOF.AppBarLayout</item>
     </style>
 
     <style name="Theme.DOF.NoActionBar">
@@ -29,10 +30,13 @@
     <style name="Widget.DOF.Button.OutlinedButton" parent="Widget.MaterialComponents.Button.OutlinedButton" />
     <style name="Widget.DOF.Button.UnelevatedButton" parent="Widget.MaterialComponents.Button.UnelevatedButton" />
 
-    <style name="Widget.DOF.Toolbar" parent="Widget.AppCompat.Toolbar">
-        <item name="android:background">?attr/colorPrimary</item>
-        <item name="android:theme">@style/Theme.DOF</item>
-        <item name="popupTheme">@style/ThemeOverlay.DOF.PopupOverlay</item>
+
+    <style name="Widget.DOF.AppBarLayout" parent="Widget.MaterialComponents.AppBarLayout.Primary">
+        <item name="android:theme">@style/ThemeOverlay.DOF.AppBarOverlay</item>
+        <item name="android:popupTheme">@style/ThemeOverlay.DOF.PopupOverlay</item>
+    </style>
+
+    <style name="Widget.DOF.Toolbar" parent="Widget.MaterialComponents.Toolbar">
     </style>
 
     <style name="Widget.DOF.Switch" parent="Theme.MaterialComponents.Light.NoActionBar">

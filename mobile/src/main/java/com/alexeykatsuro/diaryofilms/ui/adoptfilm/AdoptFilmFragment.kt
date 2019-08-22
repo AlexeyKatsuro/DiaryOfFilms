@@ -1,8 +1,8 @@
 package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 
 import androidx.core.os.bundleOf
-import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BaseDialogFragment
+import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import kotlin.reflect.KClass
 
@@ -15,5 +15,6 @@ class AdoptFilmFragment : BaseDialogFragment<FragmentAdoptFilmBinding, AdoptFilm
     }
 
     override val viewModelClass: KClass<AdoptFilmViewModel> = AdoptFilmViewModel::class
-    override val layoutId: Int = R.layout.fragment_adopt_film
+    override val inflater: BindingInflater<FragmentAdoptFilmBinding> =
+        FragmentAdoptFilmBinding::inflate
 }
