@@ -12,6 +12,7 @@ import com.alexeykatsuro.diaryofilms.util.extensions.executeAfter
 import com.alexeykatsuro.diaryofilms.util.extensions.observeEvent
 import com.alexeykatsuro.diaryofilms.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
+import com.alexeykatsuro.diaryofilms.util.input.isDate
 import kotlin.reflect.KClass
 
 class AdoptFilmFragment :
@@ -58,6 +59,11 @@ class AdoptFilmFragment :
                 length()
                     .exactly(4)
                     .errorMessage = getString(R.string.error_input_invalid)
+            }
+
+            watchingDate.setupAssertions {
+                isDate(getString(R.string.date_pattern))
+                    .errorMessage = getString(R.string.error_input_date_pattern)
             }
         }
 

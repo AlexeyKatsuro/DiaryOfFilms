@@ -15,5 +15,7 @@
 
     <string name="error_input_is_empty">Поле не заполнено</string>
     <string name="error_input_invalid">Некорректное значение</string>
+    <string name="error_input_date_pattern">Некорректная дата</string>
+
 
 </resources>

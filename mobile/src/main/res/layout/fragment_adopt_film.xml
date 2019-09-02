@@ -26,9 +26,9 @@
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_name"
             app:bindInputState="@{state.title}"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:errorEnabled="true"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -44,9 +44,9 @@
             android:layout_marginStart="@dimen/horizontal_screen_margin"
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
-            app:errorEnabled="true"
-            app:bindInputState="@{state.year}"
             android:hint="@string/adopt_film_year"
+            app:bindInputState="@{state.year}"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -65,8 +65,8 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_watching_date"
-            app:errorEnabled="true"
             app:bindInputState="@{state.watchingDate}"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_input_year"
             app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -74,51 +74,31 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:mask="@{@string/date_mask}"
-                android:inputType="date" />
+                android:inputType="date"
+                app:mask="@{@string/date_mask}" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_rating"
+        <include
+            android:id="@+id/bar_rating"
+            layout="@layout/include_rating_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_screen_margin"
-            android:layout_marginTop="@dimen/vertical_screen_margin"
-            android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
-            android:hint="@string/adopt_film_rating"
-            app:errorEnabled="true"
-            app:bindInputState="@{state.rating}"
-            app:layout_constraintEnd_toStartOf="@+id/text_input_subjective_rating"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_input_year">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/text_input_subjective_rating"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_screen_margin_half"
-            android:layout_marginTop="@dimen/vertical_screen_margin"
-            android:layout_marginEnd="@dimen/horizontal_screen_margin"
-            android:hint="@string/adopt_film_subjective_rating"
-            app:errorEnabled="true"
+            app:title="@{@string/adopt_film_rating}"
             app:layout_constraintEnd_toEndOf="parent"
-            app:bindInputState="@{state.subjectiveRating}"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/text_input_rating"
-            app:layout_constraintTop_toBottomOf="@id/text_input_year">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_input_year" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="numberDecimal" />
-        </com.google.android.material.textfield.TextInputLayout>
+
+        <include
+            android:id="@+id/bar_subjective_rating"
+            layout="@layout/include_rating_bar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:title="@{@string/adopt_film_subjective_rating}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bar_rating" />
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/button_adopt"
@@ -134,7 +114,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_input_rating" />
+            app:layout_constraintTop_toBottomOf="@id/bar_subjective_rating" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
