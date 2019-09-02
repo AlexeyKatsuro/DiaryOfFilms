@@ -1,4 +1,4 @@
-package com.alexeykatsuro.diaryofilms.util.input.validation
+package com.alexeykatsuro.inputfromutil.validation
 
 class ValidResult {
 
@@ -10,7 +10,7 @@ class ValidResult {
         get() = !isValid
 
     val errorMessage: String?
-        get() =  failureAssertions.getOrNull(0)?.errorMessage
+        get() = failureAssertions.getOrNull(0)?.errorMessage
 
     fun onValid(block: () -> Unit) {
         if (isValid) block()
@@ -20,7 +20,7 @@ class ValidResult {
         if (hasErrors) block(failureAssertions)
     }
 
-    fun addFailureAssertion(assertion: Assertion<*>){
+    fun addFailureAssertion(assertion: Assertion<*>) {
         failureAssertions.add(assertion)
     }
 }

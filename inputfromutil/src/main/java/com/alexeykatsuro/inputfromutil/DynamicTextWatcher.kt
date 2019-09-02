@@ -1,4 +1,4 @@
-package com.alexeykatsuro.diaryofilms.util.input
+package com.alexeykatsuro.inputfromutil
 
 import android.text.Editable
 import android.text.TextWatcher

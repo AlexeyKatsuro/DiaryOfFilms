@@ -1,4 +1,4 @@
-package com.alexeykatsuro.diaryofilms.util.input.validation
+package com.alexeykatsuro.inputfromutil.validation
 
 abstract class Assertion<P> {
     private var _errorMessage: String? = null

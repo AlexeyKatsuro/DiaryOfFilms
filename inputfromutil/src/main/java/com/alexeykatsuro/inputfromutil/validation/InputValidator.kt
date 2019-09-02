@@ -1,6 +1,6 @@
-package com.alexeykatsuro.diaryofilms.util.input.validation
+package com.alexeykatsuro.inputfromutil.validation
 
-import com.alexeykatsuro.diaryofilms.util.input.InputState
+import com.alexeykatsuro.inputfromutil.InputState
 
 class InputValidator {
     private val assertions = mutableListOf<TextAssertion>()

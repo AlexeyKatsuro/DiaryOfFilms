@@ -1,36 +1,13 @@
-package com.alexeykatsuro.diaryofilms.util.input
+package com.alexeykatsuro.inputfromutil
 
 import android.text.Spanned
 import android.widget.EditText
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
 import androidx.databinding.adapters.ListenerUtil
-import com.alexeykatsuro.diaryofilms.R
 import com.google.android.material.textfield.TextInputLayout
-import java.lang.ref.WeakReference
 
 
-/**
- * Combined method with [setTextAndCursor] and [onChange] functionality
- */
-@BindingAdapter("bindInputState")
-fun EditText.bindInputState(field: InputState?) {
-    if (field != null) {
-        setTextAndCursor(field.text)
-        onChange(field.onTextChange)
-    }
-}
-
-@BindingAdapter("bindInputState")
-fun TextInputLayout.bindInputLayoutState(field: InputState?) {
-    if (field != null) {
-        editText!!.setTextAndCursor(field.text)
-        editText!!.onChange(field.onTextChange)
-        if(error != field.errorMessage){
-            error = field.errorMessage
-        }
-    }
-}
 
 /**
  * If the text changed then we move the cursor to the end of the new text. This allows us to fill in text programmatically if needed,
@@ -83,16 +60,36 @@ fun isTextDifferent(str1: CharSequence?, str2: CharSequence?): Boolean {
     return false
 }
 
-private const val LISTENER_ID = R.id.tag_text_dynamic_watcher
-
 fun EditText.onChange(onChanged: ((String) -> Unit)?) {
-    val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, LISTENER_ID)
+    val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, R.id.tag_text_dynamic_watcher)
 
     if (watcher != null) {
         watcher.onChanged = onChanged
     } else {
         val newWatcher = DynamicTextWatcher(onChanged)
         addTextChangedListener(newWatcher)
-        ListenerUtil.trackListener(this, newWatcher, LISTENER_ID)
+        ListenerUtil.trackListener(this, newWatcher, R.id.tag_text_dynamic_watcher)
+    }
+}
+
+/**
+ * Combined method with [setTextAndCursor] and [onChange] functionality
+ */
+@BindingAdapter("bindInputState")
+fun EditText.bindInputState(field: InputState?) {
+    if (field != null) {
+        setTextAndCursor(field.text)
+        onChange(field.onTextChange)
+    }
+}
+
+@BindingAdapter("bindInputState")
+fun TextInputLayout.bindInputLayoutState(field: InputState?) {
+    if (field != null) {
+        editText!!.setTextAndCursor(field.text)
+        editText!!.onChange(field.onTextChange)
+        if (error != field.errorMessage) {
+            error = field.errorMessage
+        }
     }
 }

@@ -1,7 +1,8 @@
 package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 
-import com.alexeykatsuro.diaryofilms.util.input.InputForm
-import com.alexeykatsuro.diaryofilms.util.input.InputState
+import com.alexeykatsuro.inputfromutil.InputForm
+import com.alexeykatsuro.inputfromutil.InputState
+
 
 data class AdoptInputState(
     val title: InputState,
@@ -11,7 +12,7 @@ data class AdoptInputState(
     val subjectiveRating: InputState
 )
 
-class AportInputForm : InputForm<AdoptInputState>() {
+class AdoptInputForm : InputForm<AdoptInputState>() {
 
     val title = inputField { copy(title = it) }
     val year = inputField { copy(year = it) }

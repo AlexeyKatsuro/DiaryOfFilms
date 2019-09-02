@@ -1,10 +1,11 @@
-package com.alexeykatsuro.diaryofilms.util.input
+package com.alexeykatsuro.inputfromutil
 
-import com.alexeykatsuro.diaryofilms.util.input.validation.*
+import com.alexeykatsuro.inputfromutil.validation.InputValidator
+import com.alexeykatsuro.inputfromutil.validation.ValidResult
 
-class InputField(default: String, private val onStateChanged: OnStateChanged<InputState>) {
+class InputField internal constructor(default: String, private val onStateChanged: OnStateChanged<InputState>) {
 
-    private val inputValidator  = InputValidator()
+    private val inputValidator = InputValidator()
 
     private var _state = InputState(default, onTextChange = {
         updateInputState {
@@ -38,7 +39,7 @@ class InputField(default: String, private val onStateChanged: OnStateChanged<Inp
         return result
     }
 
-    fun setupAssertions(setup: InputValidator.() -> Unit){
+    fun setupAssertions(setup: InputValidator.() -> Unit) {
         inputValidator.setup()
     }
 

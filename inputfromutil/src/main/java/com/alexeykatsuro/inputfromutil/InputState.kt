@@ -1,4 +1,4 @@
-package com.alexeykatsuro.diaryofilms.util.input
+package com.alexeykatsuro.inputfromutil
 
 data class InputState(
     val text: String = "",
