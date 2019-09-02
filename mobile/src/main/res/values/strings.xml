@@ -1,9 +1,10 @@
 <resources>
     <string name="app_name">Diary of Films</string>
 
-    <string name="history_title" translatable="false">История просмотров</string>
+    <string name="history_title">История просмотров</string>
 
     <string name="date_pattern" translatable="false">dd.MM.yyyy</string>
+    <string name="date_mask" translatable="false">[00]{.}[00]{.}[0000]</string>
 
     <string name="adopt_film_name">Название фильма</string>
     <string name="adopt_film_year">Год выгода</string>
@@ -14,4 +15,5 @@
 
     <string name="error_input_is_empty">Поле не заполнено</string>
     <string name="error_input_invalid">Некорректное значение</string>
+
 </resources>

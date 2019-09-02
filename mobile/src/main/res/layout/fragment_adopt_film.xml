@@ -74,6 +74,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:mask="@{@string/date_mask}"
                 android:inputType="date" />
         </com.google.android.material.textfield.TextInputLayout>
 

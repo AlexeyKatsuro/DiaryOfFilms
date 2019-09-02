@@ -46,12 +46,14 @@ class AdoptFilmFragment :
         }
 
         viewModel.inputForm.run {
-
             setupAssertions {
-                isNotEmpty().errorMessage = getString(R.string.error_input_is_empty)
+                isNotEmpty()
+                    .errorMessage = getString(R.string.error_input_is_empty)
             }
+
             year.setupAssertions {
-                isNumber().greaterThan(1900)
+                isNumber()
+                    .greaterThan(1900)
                     .errorMessage = getString(R.string.error_input_invalid)
                 length()
                     .exactly(4)

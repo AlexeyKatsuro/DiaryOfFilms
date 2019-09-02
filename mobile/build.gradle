@@ -74,4 +74,5 @@ dependencies {
     implementation "com.jakewharton.timber:timber:$timber_version"
     implementation "com.github.PhilJay:MPAndroidChart:$mp_chart_version"
     implementation "com.afollestad:recyclical:$recyclical_version"
+    implementation "com.redmadrobot:inputmask:${input_mask_version}"
 }
