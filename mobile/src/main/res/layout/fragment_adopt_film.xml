@@ -3,9 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="onSaveClick"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="state"
+            type="com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptInputState" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,15 +25,16 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_name"
+            app:bindInputState="@{state.title}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:errorEnabled="true"
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_name"
                 android:layout_width="match_parent"
-                android:inputType="text"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -38,13 +44,14 @@
             android:layout_marginStart="@dimen/horizontal_screen_margin"
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
+            app:errorEnabled="true"
+            app:bindInputState="@{state.year}"
             android:hint="@string/adopt_film_year"
             app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_input_name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_year"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="number" />
@@ -58,12 +65,13 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_watching_date"
+            app:errorEnabled="true"
+            app:bindInputState="@{state.watchingDate}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_input_year"
             app:layout_constraintTop_toBottomOf="@id/text_input_name">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_watching_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="date" />
@@ -77,13 +85,14 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
             android:hint="@string/adopt_film_rating"
+            app:errorEnabled="true"
+            app:bindInputState="@{state.rating}"
             app:layout_constraintEnd_toStartOf="@+id/text_input_subjective_rating"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_input_year">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
@@ -93,17 +102,18 @@
             android:id="@+id/text_input_subjective_rating"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/vertical_screen_margin"
-            android:hint="@string/adopt_film_subjective_rating"
-            android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:layout_marginStart="@dimen/horizontal_screen_margin_half"
+            android:layout_marginTop="@dimen/vertical_screen_margin"
+            android:layout_marginEnd="@dimen/horizontal_screen_margin"
+            android:hint="@string/adopt_film_subjective_rating"
+            app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
+            app:bindInputState="@{state.subjectiveRating}"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/text_input_rating"
             app:layout_constraintTop_toBottomOf="@id/text_input_year">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/edit_text_subjective_rating"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal" />
@@ -114,13 +124,13 @@
             style="@style/Widget.DOF.Button.OutlinedButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="@string/adopt_film_save"
             android:layout_margin="@dimen/vertical_screen_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginStart="@dimen/horizontal_screen_margin"
-            android:onClick="@{onSaveClick}"
+            android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
+            android:onClick="@{onSaveClick}"
+            android:text="@string/adopt_film_save"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_input_rating" />

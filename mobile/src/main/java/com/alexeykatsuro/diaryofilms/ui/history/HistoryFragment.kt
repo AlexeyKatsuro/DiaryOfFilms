@@ -31,7 +31,7 @@ class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>()
 
                 withDataSource(historyDataSource)
                 withItem<FilmRecord, HistoryItemHolder>(R.layout.item_film_record) {
-                    onBind(::HistoryItemHolder) { index, item ->
+                    onBind(::HistoryItemHolder) { _, item ->
                         bind(item)
                     }
                 }

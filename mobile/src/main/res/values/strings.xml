@@ -11,4 +11,7 @@
     <string name="adopt_film_rating">Рейтинг IMDB</string>
     <string name="adopt_film_watching_date">Дата просмотра</string>
     <string name="adopt_film_save">Сохранить</string>
+
+    <string name="error_input_is_empty">Поле не заполнено</string>
+    <string name="error_input_invalid">Некорректное значение</string>
 </resources>

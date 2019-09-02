@@ -8,9 +8,10 @@ import com.alexeykatsuro.diaryofilms.base.BaseBottomSheetDialogFragment
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
+import com.alexeykatsuro.diaryofilms.util.extensions.executeAfter
 import com.alexeykatsuro.diaryofilms.util.extensions.observeEvent
+import com.alexeykatsuro.diaryofilms.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
-import com.alexeykatsuro.diaryofilms.util.extensions.text
 import kotlin.reflect.KClass
 
 class AdoptFilmFragment :
@@ -29,27 +30,52 @@ class AdoptFilmFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         withBinding {
+            state = viewModel.inputForm.state
             setOnSaveClick {
-                viewModel.adoptFilm(assebleFimlRecord())
+                if (viewModel.inputForm.validate()) {
+                    //viewModel.adoptFilm(assembleFilmRecord())
+                }
             }
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.onFilmSaved.observeEvent(viewLifecycleOwner){
+        viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
             dismiss()
+        }
+
+        viewModel.inputForm.run {
+
+            setupAssertions {
+                isNotEmpty().errorMessage = getString(R.string.error_input_is_empty)
+            }
+            year.setupAssertions {
+                isNumber().greaterThan(1900)
+                    .errorMessage = getString(R.string.error_input_invalid)
+                length()
+                    .exactly(4)
+                    .errorMessage = getString(R.string.error_input_invalid)
+            }
+        }
+
+        viewModel.onStateChanged.observeValue(viewLifecycleOwner) {
+            withBinding {
+                executeAfter {
+                    state = it
+                }
+            }
         }
     }
 
-    fun assebleFimlRecord(): FilmRecord {
-        return withBinding {
+    private fun assembleFilmRecord(): FilmRecord {
+        return with(viewModel.inputForm.state) {
             FilmRecord(
-                title = textInputName.text,
-                year = textInputYear.text.toInt(),
-                rating = textInputRating.text.toFloat(),
-                subjectiveRating = textInputSubjectiveRating.text.toFloat(),
-                watchingDate = textInputWatchingDate.text.parseDate(getString(R.string.date_pattern))
+                title = title.text,
+                year = year.text.toInt(),
+                rating = rating.text.toFloat(),
+                subjectiveRating = subjectiveRating.text.toFloat(),
+                watchingDate = watchingDate.text.parseDate(getString(R.string.date_pattern))
             )
         }
     }

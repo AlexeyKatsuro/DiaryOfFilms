@@ -19,7 +19,7 @@ import javax.inject.Singleton
     ]
 )
 interface AppComponent : AndroidInjector<DiaryOfFilmsApp> {
-    @Component.Builder
-    abstract class Builder : AndroidInjector.Builder<DiaryOfFilmsApp>()
+    @Component.Factory
+    abstract class Builder : AndroidInjector.Factory<DiaryOfFilmsApp>
 }
 
