@@ -3,14 +3,14 @@ package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import com.alexeykatsuro.data.dto.FilmRecord
+import com.alexeykatsuro.data.util.extensions.observeEvent
+import com.alexeykatsuro.data.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BaseBottomSheetDialogFragment
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
-import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import com.alexeykatsuro.diaryofilms.util.extensions.executeAfter
-import com.alexeykatsuro.diaryofilms.util.extensions.observeEvent
-import com.alexeykatsuro.diaryofilms.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
 import com.alexeykatsuro.diaryofilms.util.input.isDate
 import kotlin.reflect.KClass

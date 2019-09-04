@@ -1,7 +1,7 @@
 package com.alexeykatsuro.diaryofilms.ui.history
 
 import android.view.View
-import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
+import com.alexeykatsuro.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.ItemFilmRecordBinding
 import com.alexeykatsuro.diaryofilms.ui.common.DataBindingHolder
 

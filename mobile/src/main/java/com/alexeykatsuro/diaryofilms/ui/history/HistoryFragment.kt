@@ -5,14 +5,14 @@ import android.view.View
 import com.afollestad.recyclical.datasource.emptyDataSourceTyped
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.alexeykatsuro.data.dto.FilmRecord
+import com.alexeykatsuro.data.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BaseFragment
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
-import com.alexeykatsuro.diaryofilms.data.dto.FilmRecord
 import com.alexeykatsuro.diaryofilms.databinding.FragmentHistoryBinding
 import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
-import com.alexeykatsuro.diaryofilms.util.extensions.observeValue
 import kotlin.reflect.KClass
 
 class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>() {

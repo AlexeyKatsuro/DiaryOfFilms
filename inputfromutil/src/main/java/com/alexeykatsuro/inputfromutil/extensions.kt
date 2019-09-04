@@ -8,7 +8,6 @@ import androidx.databinding.adapters.ListenerUtil
 import com.google.android.material.textfield.TextInputLayout
 
 
-
 /**
  * If the text changed then we move the cursor to the end of the new text. This allows us to fill in text programmatically if needed,
  * like a search suggestion, but if the user is typing and the view is rebound we won't lose their cursor position.

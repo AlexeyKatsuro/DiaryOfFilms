@@ -1,1 +1,1 @@
-include ':mobile', ':inputfromutil'
+include ':mobile', ':inputfromutil', ':base', ':data'

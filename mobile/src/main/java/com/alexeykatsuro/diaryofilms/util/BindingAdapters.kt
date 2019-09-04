@@ -54,17 +54,18 @@ fun setDefaultItemDecoration(recyclerView: RecyclerView, required: Boolean) {
         recyclerView.addDividerItemDecoration()
     }
 }
-@BindingAdapter( "ratingView", "onRatingChange", requireAll = true)
+
+@BindingAdapter("ratingView", "onRatingChange", requireAll = true)
 fun bindRatingSeekbar(seekBar: SeekBar, textValue: TextView, onRatingChange: OnRatingChange?) {
-    seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+    seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-            val rating = progress/10f
+            val rating = progress / 10f
             textValue.text = rating.toString()
             onRatingChange?.onChanged(rating)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
 
-        override fun onStopTrackingTouch(seekBar: SeekBar?)  = Unit
+        override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
     })
 }

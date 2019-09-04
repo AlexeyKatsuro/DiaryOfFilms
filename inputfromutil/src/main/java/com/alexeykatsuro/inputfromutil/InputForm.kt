@@ -6,7 +6,7 @@ import com.alexeykatsuro.inputfromutil.validation.InputValidator
 typealias OnStateChanged<T> = (newState: T) -> Unit
 typealias CopyState<T> = T.(newInput: InputState) -> T
 
-abstract class InputForm<State : Any>  {
+abstract class InputForm<State : Any> {
     protected var _formState: State? = null
     protected var stateChangedCallback: OnStateChanged<State>? = null
     protected val fromFields = mutableListOf<InputField>()

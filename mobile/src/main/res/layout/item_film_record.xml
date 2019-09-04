@@ -9,7 +9,7 @@
 
         <variable
             name="item"
-            type="com.alexeykatsuro.diaryofilms.data.dto.FilmRecord" />
+            type="com.alexeykatsuro.data.dto.FilmRecord" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
