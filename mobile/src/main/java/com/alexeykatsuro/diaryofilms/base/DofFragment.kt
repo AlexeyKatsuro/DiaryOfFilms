@@ -16,13 +16,10 @@ import kotlin.reflect.KClass
 
 typealias BindingInflater<VB> = (LayoutInflater, ViewGroup?, Boolean) -> VB
 
-abstract class  DOFFragment<VB : ViewDataBinding> : DaggerFragment() {
+abstract class  DofFragment<VB : ViewDataBinding> : DaggerFragment() {
 
     protected open lateinit var binding: VB
     protected open lateinit var navController: NavController
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     abstract val inflater: BindingInflater<VB>
 

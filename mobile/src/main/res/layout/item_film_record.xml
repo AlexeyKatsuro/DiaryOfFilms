@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="@{item.filmInfo.title}"
-            android:textAppearance="?textAppearanceHeadline5"
+            android:textAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_constraintEnd_toStartOf="@+id/watching_date"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="20.12.2019" />
 
-<!--        TODO Don't use android:theme, use style instead-->
+        <!--        TODO Don't use android:theme, use style instead-->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/rating"
             android:layout_width="wrap_content"

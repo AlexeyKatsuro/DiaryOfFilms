@@ -1,22 +1,21 @@
 package com.alexeykatsuro.diaryofilms.ui.history
 
-import androidx.lifecycle.ViewModel
-import com.alexeykatsuro.diaryofilms.di.ViewModelKey
 import com.alexeykatsuro.diaryofilms.di.scope.FragmentScoped
-import dagger.Binds
+import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
-import dagger.multibindings.IntoMap
 
 @Module
 internal abstract class HistoryBuilder {
 
     @FragmentScoped
-    @ContributesAndroidInjector
+    @ContributesAndroidInjector(
+        modules = [
+            HistoryAssistedModule::class]
+    )
     internal abstract fun contributeHistoryFragment(): HistoryFragment
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(HistoryViewModel::class)
-    internal abstract fun bindHistoryViewModel(historyViewModel: HistoryViewModel): ViewModel
 }
+
+@Module(includes = [AssistedInject_HistoryAssistedModule::class])
+@AssistedModule
+interface HistoryAssistedModule

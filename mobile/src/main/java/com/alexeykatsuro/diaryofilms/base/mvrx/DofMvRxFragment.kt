@@ -5,10 +5,10 @@ import androidx.databinding.ViewDataBinding
 import androidx.lifecycle.LifecycleOwner
 import com.airbnb.mvrx.MvRxView
 import com.airbnb.mvrx.MvRxViewModelStore
-import com.alexeykatsuro.diaryofilms.base.DOFFragment
+import com.alexeykatsuro.diaryofilms.base.DofFragment
 import java.util.*
 
-abstract class DofMvRxFragment<VB : ViewDataBinding> : DOFFragment<VB>(), MvRxView {
+abstract class DofMvRxFragment<VB : ViewDataBinding> : DofFragment<VB>(), MvRxView {
 
     override val mvrxViewModelStore by lazy { MvRxViewModelStore(viewModelStore) }
 

@@ -6,21 +6,25 @@ import androidx.fragment.app.viewModels
 import com.afollestad.recyclical.datasource.emptyDataSourceTyped
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
+import com.airbnb.mvrx.fragmentViewModel
+import com.airbnb.mvrx.withState
 import com.alexeykatsuro.data.dto.FilmRecord
-import com.alexeykatsuro.data.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.R
-import com.alexeykatsuro.diaryofilms.base.DOFFragment
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
+import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentHistoryBinding
 import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
+import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
+import javax.inject.Inject
 
-class HistoryFragment : DOFFragment<FragmentHistoryBinding>() {
+class HistoryFragment : DofMvRxFragment<FragmentHistoryBinding>() {
 
     override val inflater: BindingInflater<FragmentHistoryBinding> =
         FragmentHistoryBinding::inflate
 
-    private val viewModel by viewModels<HistoryViewModel> { viewModelFactory }
+    @Inject lateinit var historyViewModelFactory: HistoryViewModel.Factory
+    private val viewModel: HistoryViewModel by fragmentViewModel()
 
     private val historyDataSource = emptyDataSourceTyped<FilmRecord>()
 
@@ -42,16 +46,27 @@ class HistoryFragment : DOFFragment<FragmentHistoryBinding>() {
                 showAdoptDialog()
             }
         }
+        viewModel.setFilmHistory(
+            List(15) {
+                FilmRecord(
+                    id = 0,
+                    title = "Интекстеллар $it",
+                    year = 2000,
+                    rating = 8.8f,
+                            subjectiveRating = 8.8f,
+                            watchingDate = "22.12.2000".parseDate(getString(R.string.date_pattern))
+
+
+                )
+            }
+        )
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel.allFilms.observeValue(viewLifecycleOwner) {
-            historyDataSource.set(
-                newItems = it,
-                areTheSame = { left, right -> left.id == right.id },
-                areContentsTheSame = { left, right -> left == right })
-        }
+    override fun invalidate() = withState(viewModel) {
+        historyDataSource.set(
+            newItems = it.films,
+            areTheSame = { left, right -> left.id == right.id },
+            areContentsTheSame = { left, right -> left == right })
     }
 
     private fun showAdoptDialog() {
@@ -59,4 +74,5 @@ class HistoryFragment : DOFFragment<FragmentHistoryBinding>() {
         dialog.setTargetFragment(this, 0)
         dialog.show(requireFragmentManager(), "AdoptFilmFragment")
     }
+
 }
