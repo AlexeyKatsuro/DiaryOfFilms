@@ -6,14 +6,14 @@ import com.alexeykatsuro.data.dto.FilmRecord
 import com.alexeykatsuro.data.repositories.HistoryRepository
 import com.alexeykatsuro.data.util.Event
 import com.alexeykatsuro.data.util.extensions.triggerEvent
-import com.alexeykatsuro.diaryofilms.base.BaseViewModel
+import com.alexeykatsuro.diaryofilms.base.DofViewModel
 import com.alexeykatsuro.inputfromutil.createForm
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class AdoptFilmViewModel @Inject constructor(
     private val historyRepository: HistoryRepository
-) : BaseViewModel() {
+) : DofViewModel() {
 
     val inputForm: AdoptInputForm = createForm(::AdoptInputForm) {
         onStateChanged {

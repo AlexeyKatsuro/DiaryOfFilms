@@ -3,20 +3,20 @@ package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
+import androidx.fragment.app.viewModels
 import com.alexeykatsuro.data.dto.FilmRecord
 import com.alexeykatsuro.data.util.extensions.observeEvent
 import com.alexeykatsuro.data.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.R
-import com.alexeykatsuro.diaryofilms.base.BaseBottomSheetDialogFragment
+import com.alexeykatsuro.diaryofilms.base.DofBottomSheetDialogFragment
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import com.alexeykatsuro.diaryofilms.util.extensions.executeAfter
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
 import com.alexeykatsuro.diaryofilms.util.input.isDate
-import kotlin.reflect.KClass
 
 class AdoptFilmFragment :
-    BaseBottomSheetDialogFragment<FragmentAdoptFilmBinding, AdoptFilmViewModel>() {
+    DofBottomSheetDialogFragment<FragmentAdoptFilmBinding>() {
 
     companion object {
         fun newInstance() = AdoptFilmFragment().apply {
@@ -24,7 +24,7 @@ class AdoptFilmFragment :
         }
     }
 
-    override val viewModelClass: KClass<AdoptFilmViewModel> = AdoptFilmViewModel::class
+    val viewModel by viewModels<AdoptFilmViewModel> { viewModelFactory }
     override val inflater: BindingInflater<FragmentAdoptFilmBinding> =
         FragmentAdoptFilmBinding::inflate
 

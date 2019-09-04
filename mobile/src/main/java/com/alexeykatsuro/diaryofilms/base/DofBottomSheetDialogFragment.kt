@@ -19,17 +19,15 @@ import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseBottomSheetDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
+abstract class DofBottomSheetDialogFragment<VB : ViewDataBinding> :
     BottomSheetDialogFragment(), HasAndroidInjector {
 
     protected open lateinit var binding: VB
-    protected open lateinit var viewModel: VM
     protected open lateinit var navController: NavController
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    abstract val viewModelClass: KClass<VM>
     abstract val inflater: BindingInflater<VB>
 
     @Inject
@@ -42,12 +40,6 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewDataBinding, VM : BaseView
 
     override fun androidInjector(): AndroidInjector<Any> {
         return androidInjector
-    }
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        viewModel = createViewModel(viewModelFactory, viewModelClass)
     }
 
     final override fun onCreateView(
@@ -68,9 +60,6 @@ abstract class BaseBottomSheetDialogFragment<VB : ViewDataBinding, VM : BaseView
 
     protected open fun createDataBinding(inflater: LayoutInflater, container: ViewGroup?): VB =
         inflater(inflater, container, false)
-
-    protected open fun createViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
-        ViewModelProviders.of(this, provider).get(clazz.java)
 
     protected inline fun <T> withBinding(block: VB.() -> T): T {
         return binding.block()

@@ -16,17 +16,15 @@ import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
 import kotlin.reflect.KClass
 
-abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
+abstract class DofDialogFragment<VB : ViewDataBinding> :
     DaggerDialogFragment() {
 
     protected open lateinit var binding: VB
-    protected open lateinit var viewModel: VM
     protected open lateinit var navController: NavController
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    abstract val viewModelClass: KClass<VM>
     abstract val inflater: BindingInflater<VB>
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -34,13 +32,6 @@ abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
         return AlertDialog.Builder(requireContext())
             .setView(binding.root)
             .create()
-    }
-
-    @CallSuper
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        viewModel = createViewModel(viewModelFactory, viewModelClass)
     }
 
 
@@ -53,8 +44,6 @@ abstract class BaseDialogFragment<VB : ViewDataBinding, VM : BaseViewModel> :
     protected open fun createDataBinding(inflater: LayoutInflater, container: ViewGroup?): VB =
         inflater(inflater, container, false)
 
-    protected open fun createViewModel(provider: ViewModelProvider.Factory, clazz: KClass<VM>): VM =
-        ViewModelProviders.of(this, provider).get(clazz.java)
 
     protected inline fun withBinding(block: VB.() -> Unit) {
         binding.apply(block)

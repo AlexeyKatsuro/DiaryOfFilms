@@ -2,24 +2,25 @@ package com.alexeykatsuro.diaryofilms.ui.history
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.viewModels
 import com.afollestad.recyclical.datasource.emptyDataSourceTyped
 import com.afollestad.recyclical.setup
 import com.afollestad.recyclical.withItem
 import com.alexeykatsuro.data.dto.FilmRecord
 import com.alexeykatsuro.data.util.extensions.observeValue
 import com.alexeykatsuro.diaryofilms.R
-import com.alexeykatsuro.diaryofilms.base.BaseFragment
+import com.alexeykatsuro.diaryofilms.base.DOFFragment
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.databinding.FragmentHistoryBinding
 import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
-import kotlin.reflect.KClass
 
-class HistoryFragment : BaseFragment<FragmentHistoryBinding, HistoryViewModel>() {
+class HistoryFragment : DOFFragment<FragmentHistoryBinding>() {
 
     override val inflater: BindingInflater<FragmentHistoryBinding> =
         FragmentHistoryBinding::inflate
-    override val viewModelClass: KClass<HistoryViewModel> = HistoryViewModel::class
+
+    private val viewModel by viewModels<HistoryViewModel> { viewModelFactory }
 
     private val historyDataSource = emptyDataSourceTyped<FilmRecord>()
 
