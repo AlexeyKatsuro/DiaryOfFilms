@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
+import com.alexeykatsuro.data.util.extensions.observeValue
 import dagger.android.support.DaggerDialogFragment
 import javax.inject.Inject
 import kotlin.reflect.KClass
@@ -20,10 +21,6 @@ abstract class DofDialogFragment<VB : ViewDataBinding> :
     DaggerDialogFragment() {
 
     protected open lateinit var binding: VB
-    protected open lateinit var navController: NavController
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     abstract val inflater: BindingInflater<VB>
 
@@ -35,10 +32,12 @@ abstract class DofDialogFragment<VB : ViewDataBinding> :
     }
 
 
-    @CallSuper
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.lifecycleOwner = viewLifecycleOwner
-        navController = findNavController()
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        getViewLifecycleOwnerLiveData().observeValue(this){
+            binding.lifecycleOwner = it
+        }
+
     }
 
     protected open fun createDataBinding(inflater: LayoutInflater, container: ViewGroup?): VB =
@@ -47,5 +46,6 @@ abstract class DofDialogFragment<VB : ViewDataBinding> :
 
     protected inline fun withBinding(block: VB.() -> Unit) {
         binding.apply(block)
+        binding.executePendingBindings()
     }
 }

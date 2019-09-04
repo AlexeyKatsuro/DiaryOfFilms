@@ -9,10 +9,15 @@ import androidx.appcompat.widget.Toolbar
 import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.databinding.BindingAdapter
+import androidx.databinding.adapters.ListenerUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
 import com.alexeykatsuro.diaryofilms.util.extensions.setAnimatedVisibility
 import com.alexeykatsuro.diaryofilms.util.extensions.setMask
+import com.alexeykatsuro.inputfromutil.DynamicTextWatcher
+import com.alexeykatsuro.inputfromutil.R
+import com.alexeykatsuro.inputfromutil.onChange
+import com.google.android.material.textfield.TextInputLayout
 
 /**
  * Data Binding adapters specific to the app.
@@ -56,16 +61,24 @@ fun setDefaultItemDecoration(recyclerView: RecyclerView, required: Boolean) {
 }
 
 @BindingAdapter("ratingView", "onRatingChange", requireAll = true)
-fun bindRatingSeekbar(seekBar: SeekBar, textValue: TextView, onRatingChange: OnRatingChange?) {
+fun bindRatingSeekbar(seekBar: SeekBar, textValue: TextView, onRatingChange: OnValueChange<Float>?) {
     seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             val rating = progress / 10f
-            textValue.text = rating.toString()
-            onRatingChange?.onChanged(rating)
+            textValue.text =  String.format("%.1f", rating)
         }
 
-        override fun onStartTrackingTouch(seekBar: SeekBar?) = Unit
+        override fun onStartTrackingTouch(seekBar: SeekBar) = Unit
 
-        override fun onStopTrackingTouch(seekBar: SeekBar?) = Unit
+        override fun onStopTrackingTouch(seekBar: SeekBar) {
+            onRatingChange?.onChanged(seekBar.progress/10f)
+        }
+
     })
 }
+
+@BindingAdapter("onValueChange")
+fun EditText.onValueChange(onValueChange: OnValueChange<String>){
+        onChange (onValueChange::onChanged)
+}
+

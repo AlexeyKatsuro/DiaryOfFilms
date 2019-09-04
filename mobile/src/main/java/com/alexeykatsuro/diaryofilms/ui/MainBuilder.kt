@@ -4,10 +4,12 @@ import com.alexeykatsuro.diaryofilms.di.ViewModelBuilder
 import com.alexeykatsuro.diaryofilms.di.scope.ActivityScoped
 import com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmBuilder
 import com.alexeykatsuro.diaryofilms.ui.history.HistoryBuilder
+import com.squareup.inject.assisted.dagger2.AssistedModule
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
-@Module
+@Module(includes = [AssistedInject_MainBuilder::class])
+@AssistedModule
 internal abstract class MainBuilder {
 
     @ActivityScoped

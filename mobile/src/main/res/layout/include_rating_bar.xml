@@ -10,8 +10,12 @@
             type="String" />
 
         <variable
+            name="rating"
+            type="float" />
+
+        <variable
             name="onRatingChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnRatingChange" />
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -40,7 +44,7 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:textColorTertiary"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="0.0"
+            android:text='@{String.format("%.1f",rating)}'
             app:layout_constraintTop_toTopOf="parent"
             tools:text="8.5" />
 
@@ -54,6 +58,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:max="100"
+            android:progress="@{(int)rating*10}"
             app:ratingView="@{textValue}"
             app:onRatingChange="@{onRatingChange}"
             app:layout_constraintStart_toStartOf="parent"

@@ -10,7 +10,28 @@
 
         <variable
             name="state"
-            type="com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptInputState" />
+            type="com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmState" />
+
+        <variable
+            name="onRatingChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+
+        <variable
+            name="onSubjectiveRatingChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+
+        <variable
+            name="onTitleChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+
+        <variable
+            name="onYearChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+
+        <variable
+            name="onWatchingDateChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -25,7 +46,6 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_name"
-            app:bindInputState="@{state.title}"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -34,6 +54,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:onValueChange="@{onTitleChange}"
+                app:updateText="@{state.title}"
                 android:inputType="text" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,7 +67,6 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
             android:hint="@string/adopt_film_year"
-            app:bindInputState="@{state.year}"
             app:errorEnabled="true"
             app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
             app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +75,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:onValueChange="@{onYearChange}"
+                app:updateText="@{state.year}"
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -65,7 +88,6 @@
             android:layout_marginTop="@dimen/vertical_screen_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_watching_date"
-            app:bindInputState="@{state.watchingDate}"
             app:errorEnabled="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_input_year"
@@ -75,6 +97,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="date"
+                app:onValueChange="@{onWatchingDateChange}"
+                app:updateText="@{state.watchingDate}"
                 app:mask="@{@string/date_mask}" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -84,6 +108,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:title="@{@string/adopt_film_rating}"
+            app:rating="@{state.rating}"
+            app:onRatingChange="@{onRatingChange}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/text_input_year" />
@@ -94,6 +120,8 @@
             layout="@layout/include_rating_bar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            app:rating="@{state.subjectiveRating}"
+            app:onRatingChange="@{onSubjectiveRatingChange}"
             app:title="@{@string/adopt_film_subjective_rating}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

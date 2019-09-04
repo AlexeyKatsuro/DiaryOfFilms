@@ -3,20 +3,17 @@ package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 import android.os.Bundle
 import android.view.View
 import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
-import com.alexeykatsuro.data.dto.FilmRecord
-import com.alexeykatsuro.data.util.extensions.observeEvent
-import com.alexeykatsuro.data.util.extensions.observeValue
-import com.alexeykatsuro.diaryofilms.R
-import com.alexeykatsuro.diaryofilms.base.DofBottomSheetDialogFragment
+import com.airbnb.mvrx.fragmentViewModel
+import com.airbnb.mvrx.withState
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
+import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxDialogFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
-import com.alexeykatsuro.diaryofilms.util.extensions.executeAfter
-import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
-import com.alexeykatsuro.diaryofilms.util.input.isDate
+import com.alexeykatsuro.diaryofilms.util.OnValueChange
+import timber.log.Timber
+import javax.inject.Inject
 
 class AdoptFilmFragment :
-    DofBottomSheetDialogFragment<FragmentAdoptFilmBinding>() {
+    DofMvRxDialogFragment<FragmentAdoptFilmBinding>() {
 
     companion object {
         fun newInstance() = AdoptFilmFragment().apply {
@@ -24,25 +21,51 @@ class AdoptFilmFragment :
         }
     }
 
-    val viewModel by viewModels<AdoptFilmViewModel> { viewModelFactory }
+    @Inject
+    lateinit var viewModelFactory: AdoptFilmViewModel.Factory
+
+    private val viewModel: AdoptFilmViewModel by fragmentViewModel()
     override val inflater: BindingInflater<FragmentAdoptFilmBinding> =
         FragmentAdoptFilmBinding::inflate
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun invalidate() = withState(viewModel) {
         withBinding {
-            state = viewModel.inputForm.state
-            setOnSaveClick {
-                if (viewModel.inputForm.validate()) {
-                    //viewModel.adoptFilm(assembleFilmRecord())
-                }
-            }
+            Timber.e("State: $it")
+            state = it
         }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
+        withBinding {
+            onSaveClick = View.OnClickListener {
+
+            }
+            onRatingChange = OnValueChange {
+                viewModel.updateState {
+                    copy(rating = it)
+                }
+            }
+
+            onSubjectiveRatingChange = OnValueChange {
+                viewModel.updateState {
+                    copy(subjectiveRating = it)
+                }
+            }
+
+            onTitleChange = OnValueChange {
+                viewModel.updateState { copy(title = it) }
+            }
+
+            onYearChange = OnValueChange {
+                viewModel.updateState { copy(year = it) }
+            }
+
+            onWatchingDateChange = OnValueChange {
+                viewModel.updateState { copy(watchingDate = it) }
+            }
+        }
+        /*viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
             dismiss()
         }
 
@@ -73,18 +96,18 @@ class AdoptFilmFragment :
                     state = it
                 }
             }
-        }
+        }*/
     }
 
-    private fun assembleFilmRecord(): FilmRecord {
-        return with(viewModel.inputForm.state) {
-            FilmRecord(
-                title = title.text,
-                year = year.text.toInt(),
-                rating = rating.text.toFloat(),
-                subjectiveRating = subjectiveRating.text.toFloat(),
-                watchingDate = watchingDate.text.parseDate(getString(R.string.date_pattern))
-            )
-        }
-    }
+    /*  private fun assembleFilmRecord(): FilmRecord {
+          return with(viewModel.inputForm.state) {
+              FilmRecord(
+                  title = title.text,
+                  year = year.text.toInt(),
+                  rating = rating.text.toFloat(),
+                  subjectiveRating = subjectiveRating.text.toFloat(),
+                  watchingDate = watchingDate.text.parseDate(getString(R.string.date_pattern))
+              )
+          }
+      }*/
 }

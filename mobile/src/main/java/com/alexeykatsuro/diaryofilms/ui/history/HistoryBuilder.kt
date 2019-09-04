@@ -9,13 +9,6 @@ import dagger.android.ContributesAndroidInjector
 internal abstract class HistoryBuilder {
 
     @FragmentScoped
-    @ContributesAndroidInjector(
-        modules = [
-            HistoryAssistedModule::class]
-    )
+    @ContributesAndroidInjector
     internal abstract fun contributeHistoryFragment(): HistoryFragment
 }
-
-@Module(includes = [AssistedInject_HistoryAssistedModule::class])
-@AssistedModule
-interface HistoryAssistedModule

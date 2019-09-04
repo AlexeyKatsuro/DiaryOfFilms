@@ -25,9 +25,6 @@ abstract class DofBottomSheetDialogFragment<VB : ViewDataBinding> :
     protected open lateinit var binding: VB
     protected open lateinit var navController: NavController
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
     abstract val inflater: BindingInflater<VB>
 
     @Inject
