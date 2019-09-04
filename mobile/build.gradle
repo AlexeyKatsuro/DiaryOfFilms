@@ -39,9 +39,9 @@ android {
 }
 
 dependencies {
-    implementation project(":inputfromutil")
     implementation project(":base")
     implementation project(":data")
+    implementation project(":inputfromutil")
 
     implementation "com.google.android.material:material:$material_version"
 
@@ -68,8 +68,8 @@ dependencies {
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
+    implementation "com.airbnb.android:mvrx:$mvrx_version"
 
-    implementation "com.github.PhilJay:MPAndroidChart:$mp_chart_version"
     implementation "com.afollestad:recyclical:$recyclical_version"
     implementation "com.redmadrobot:inputmask:${input_mask_version}"
 }
