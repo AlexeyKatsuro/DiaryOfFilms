@@ -39,9 +39,9 @@ android {
 }
 
 dependencies {
+    implementation project(":inputfromutil")
     implementation project(":base")
     implementation project(":data")
-    implementation project(":inputfromutil")
 
     implementation "com.google.android.material:material:$material_version"
 
@@ -49,14 +49,9 @@ dependencies {
     implementation "androidx.core:core-ktx:$ktx_version"
     implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
 
-    implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
-
     testImplementation "junit:junit:$junit_version"
     androidTestImplementation "androidx.test:runner:$test_runner_version"
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
-
 
     implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
     implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
@@ -64,11 +59,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-common-java8:$lifecycle_version"
 
-
     implementation "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-compiler:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
