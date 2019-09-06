@@ -5,21 +5,20 @@ import android.view.View
 import androidx.core.os.bundleOf
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.alexeykatsuro.data.dto.FilmRecord
+import com.alexeykatsuro.data.util.extensions.observeEvent
+import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxDialogFragment
+import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import com.alexeykatsuro.diaryofilms.util.OnValueChange
+import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
 import timber.log.Timber
 import javax.inject.Inject
 
 class AdoptFilmFragment :
-    DofMvRxDialogFragment<FragmentAdoptFilmBinding>() {
-
-    companion object {
-        fun newInstance() = AdoptFilmFragment().apply {
-            arguments = bundleOf()
-        }
-    }
+    DofMvRxFragment<FragmentAdoptFilmBinding>() {
 
     @Inject
     lateinit var viewModelFactory: AdoptFilmViewModel.Factory
@@ -38,8 +37,13 @@ class AdoptFilmFragment :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         withBinding {
-            onSaveClick = View.OnClickListener {
 
+            onNavUpClick = View.OnClickListener {
+                navController.navigateUp()
+            }
+
+            onSaveClick = View.OnClickListener {
+                viewModel.adoptFilm(assembleFilmRecord())
             }
             onRatingChange = OnValueChange {
                 viewModel.updateState {
@@ -65,11 +69,11 @@ class AdoptFilmFragment :
                 viewModel.updateState { copy(watchingDate = it) }
             }
         }
-        /*viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
-            dismiss()
+        viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
+            navController.navigateUp()
         }
 
-        viewModel.inputForm.run {
+        /*viewModel.inputForm.run {
             setupAssertions {
                 isNotEmpty()
                     .errorMessage = getString(R.string.error_input_is_empty)
@@ -99,15 +103,13 @@ class AdoptFilmFragment :
         }*/
     }
 
-    /*  private fun assembleFilmRecord(): FilmRecord {
-          return with(viewModel.inputForm.state) {
-              FilmRecord(
-                  title = title.text,
-                  year = year.text.toInt(),
-                  rating = rating.text.toFloat(),
-                  subjectiveRating = subjectiveRating.text.toFloat(),
-                  watchingDate = watchingDate.text.parseDate(getString(R.string.date_pattern))
-              )
-          }
-      }*/
+      private fun assembleFilmRecord() = withState(viewModel){
+          FilmRecord(
+              title = it.title,
+              year = it.year.toInt(),
+              rating = it.rating,
+              subjectiveRating = it.subjectiveRating,
+              watchingDate = it.watchingDate.parseDate(getString(R.string.date_pattern))
+          )
+      }
 }

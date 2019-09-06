@@ -8,5 +8,14 @@
         android:id="@+id/HistoryFragment"
         android:name="com.alexeykatsuro.diaryofilms.ui.history.HistoryFragment"
         android:label="HistryFragment"
-        tools:layout="@layout/fragment_history"/>
+        tools:layout="@layout/fragment_history">
+        <action
+            android:id="@+id/showAdoptFilmFragment"
+            app:destination="@id/adoptFilmFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/adoptFilmFragment"
+        android:name="com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment"
+        android:label="AdoptFilmFragment"
+        tools:layout="@layout/fragment_adopt_film"/>
 </navigation>

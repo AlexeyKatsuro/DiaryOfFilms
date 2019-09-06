@@ -3,13 +3,14 @@ package com.alexeykatsuro.data.db.dao
 import androidx.lifecycle.LiveData
 import androidx.room.*
 import com.alexeykatsuro.data.db.entity.FilmRecordEntity
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface FilmRecordDao {
 
     @Query("SELECT * FROM filmRecordEntity ORDER BY watchingDate DESC")
-    fun allFilms(): LiveData<List<FilmRecordEntity>>
+    fun allFilmsObservable(): Flow<List<FilmRecordEntity>>
 
     @Query("SELECT * FROM filmRecordEntity")
     suspend fun getAll(): List<FilmRecordEntity>

@@ -81,4 +81,8 @@ fun bindRatingSeekbar(seekBar: SeekBar, textValue: TextView, onRatingChange: OnV
 fun EditText.onValueChange(onValueChange: OnValueChange<String>){
         onChange (onValueChange::onChanged)
 }
+@BindingAdapter("onNavigationClick")
+fun navigationOnClick(toolbar: Toolbar, onClickListener: View.OnClickListener){
+    toolbar.setNavigationOnClickListener(onClickListener)
+}
 

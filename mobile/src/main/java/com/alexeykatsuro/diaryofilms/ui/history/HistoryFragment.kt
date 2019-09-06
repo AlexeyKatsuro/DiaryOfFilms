@@ -43,23 +43,10 @@ class HistoryFragment : DofMvRxFragment<FragmentHistoryBinding>() {
             }
 
             setOnAddFilmClick {
-                showAdoptDialog()
+                val direction = HistoryFragmentDirections.showAdoptFilmFragment()
+                navController.navigate(direction)
             }
         }
-        viewModel.setFilmHistory(
-            List(15) {
-                FilmRecord(
-                    id = 0,
-                    title = "Интекстеллар $it",
-                    year = 2000,
-                    rating = 8.8f,
-                            subjectiveRating = 8.8f,
-                            watchingDate = "22.12.2000".parseDate(getString(R.string.date_pattern))
-
-
-                )
-            }
-        )
     }
 
     override fun invalidate() = withState(viewModel) {
@@ -67,12 +54,6 @@ class HistoryFragment : DofMvRxFragment<FragmentHistoryBinding>() {
             newItems = it.films,
             areTheSame = { left, right -> left.id == right.id },
             areContentsTheSame = { left, right -> left == right })
-    }
-
-    private fun showAdoptDialog() {
-        val dialog = AdoptFilmFragment.newInstance()
-        dialog.setTargetFragment(this, 0)
-        dialog.show(requireFragmentManager(), "AdoptFilmFragment")
     }
 
 }

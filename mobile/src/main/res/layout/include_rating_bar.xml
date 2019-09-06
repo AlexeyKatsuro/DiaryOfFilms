@@ -16,6 +16,7 @@
         <variable
             name="onRatingChange"
             type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,8 +27,6 @@
             android:id="@+id/text_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_screen_margin"
-            android:layout_marginTop="@dimen/vertical_screen_margin"
             android:text="@{title}"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/horizontal_screen_margin"
-            android:layout_marginTop="@dimen/vertical_screen_margin"
-            android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
             android:textColor="?android:textColorTertiary"
             app:layout_constraintEnd_toEndOf="parent"
@@ -51,13 +48,12 @@
         <SeekBar
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/horizontal_screen_margin_half"
             android:layout_marginTop="@dimen/vertical_internal_margin_small"
-            android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
-            android:layout_marginBottom="@dimen/vertical_screen_margin"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:max="100"
+            android:paddingStart="7dp"
+            android:paddingEnd="7dp"
             android:progress="@{(int)rating*10}"
             app:ratingView="@{textValue}"
             app:onRatingChange="@{onRatingChange}"

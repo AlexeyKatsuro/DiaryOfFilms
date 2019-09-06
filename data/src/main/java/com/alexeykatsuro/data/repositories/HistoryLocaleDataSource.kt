@@ -5,7 +5,7 @@ import com.alexeykatsuro.data.dto.FilmRecord
 import com.alexeykatsuro.data.mappers.FilmRecordDemapper
 import com.alexeykatsuro.data.mappers.FilmRecordMapper
 import com.alexeykatsuro.data.mappers.toListMapper
-import com.alexeykatsuro.data.util.extensions.map
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class HistoryLocaleDataSource @Inject constructor(
@@ -14,7 +14,7 @@ class HistoryLocaleDataSource @Inject constructor(
     private val filmRecordDemapper: FilmRecordDemapper
 ) : DataSource {
 
-    fun allFilms() = filmRecordDao.allFilms().map {
+    fun allFilmsObservable() = filmRecordDao.allFilmsObservable().map {
         filmRecordMapper.toListMapper().map(it)
     }
 
