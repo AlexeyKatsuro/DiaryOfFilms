@@ -74,6 +74,7 @@
                 android:layout_marginEnd="@dimen/horizontal_screen_margin"
                 android:hint="@string/adopt_film_name"
                 app:errorEnabled="true"
+                app:updateInput="@{state.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/app_bar">
@@ -82,8 +83,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    app:onValueChange="@{onTitleChange}"
-                    app:updateText="@{state.title}" />
+                    app:onValueChange="@{onTitleChange}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -95,6 +95,7 @@
                 android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
                 android:hint="@string/adopt_film_year"
                 app:errorEnabled="true"
+                app:updateInput="@{state.year}"
                 app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -104,7 +105,6 @@
                     android:layout_height="wrap_content"
                     android:maxLength="4"
                     app:onValueChange="@{onYearChange}"
-                    app:updateText="@{state.year}"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -117,6 +117,7 @@
                 android:layout_marginEnd="@dimen/horizontal_screen_margin"
                 android:hint="@string/adopt_film_watching_date"
                 app:errorEnabled="true"
+                app:updateInput="@{state.watchingDate}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_input_year"
                 app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -126,7 +127,6 @@
                     android:layout_height="wrap_content"
                     android:inputType="date"
                     app:onValueChange="@{onWatchingDateChange}"
-                    app:updateText="@{state.watchingDate}"
                     app:mask="@{@string/date_mask}" />
             </com.google.android.material.textfield.TextInputLayout>
 

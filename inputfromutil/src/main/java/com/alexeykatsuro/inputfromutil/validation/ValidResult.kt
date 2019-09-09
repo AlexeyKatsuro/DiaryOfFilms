@@ -1,26 +1,33 @@
 package com.alexeykatsuro.inputfromutil.validation
 
+typealias Failures = List<Assertion<*>>
+typealias onInvalidCallback = (Failures) -> Unit
+
 class ValidResult {
 
-    private val failureAssertions = mutableListOf<Assertion<*>>()
+    private val _failureAssertions = mutableListOf<Assertion<*>>()
+    val failureAssertions: Failures
+        get() = _failureAssertions
 
     val isValid: Boolean
-        get() = failureAssertions.isEmpty()
+        get() = _failureAssertions.isEmpty()
     val hasErrors: Boolean
         get() = !isValid
 
     val errorMessage: String?
-        get() = failureAssertions.getOrNull(0)?.errorMessage
+        get() = _failureAssertions.messageOrNull()
 
-    fun onValid(block: () -> Unit) {
+    inline fun onValid(block: () -> Unit) {
         if (isValid) block()
     }
 
-    fun onInvalid(block: (List<Assertion<*>>) -> Unit) {
+    inline fun onInvalid(block: onInvalidCallback) {
         if (hasErrors) block(failureAssertions)
     }
 
     fun addFailureAssertion(assertion: Assertion<*>) {
-        failureAssertions.add(assertion)
+        _failureAssertions.add(assertion)
     }
 }
+
+fun Failures.messageOrNull(): String? = firstOrNull()?.errorMessage

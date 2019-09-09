@@ -8,3 +8,8 @@ data class InputState(
 ) {
     override fun toString() = text
 }
+
+data class Input(
+    val text: String = "",
+    val errorMessage: String? = null
+)

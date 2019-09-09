@@ -27,7 +27,7 @@ class InputField internal constructor(default: String, private val onStateChange
         }
 
     fun validate(silent: Boolean = false): ValidResult {
-        val result = inputValidator.validate(state)
+        val result = inputValidator.validate(state.text)
         if (!silent) {
             updateInputState {
                 copy(

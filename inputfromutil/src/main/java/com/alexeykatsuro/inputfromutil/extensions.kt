@@ -92,3 +92,13 @@ fun TextInputLayout.bindInputLayoutState(field: InputState?) {
         }
     }
 }
+
+@BindingAdapter("updateInput")
+fun TextInputLayout.updateInput(field: Input?) {
+    if (field != null) {
+        editText!!.setTextAndCursor(field.text)
+        if (error != field.errorMessage) {
+            error = field.errorMessage
+        }
+    }
+}

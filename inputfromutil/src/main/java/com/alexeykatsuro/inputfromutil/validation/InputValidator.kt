@@ -1,28 +1,18 @@
 package com.alexeykatsuro.inputfromutil.validation
 
-import com.alexeykatsuro.inputfromutil.InputState
-
 class InputValidator {
     private val assertions = mutableListOf<TextAssertion>()
 
-    fun validate(state: InputState): ValidResult {
+    fun validate(text: String): ValidResult {
         val result = ValidResult()
         for (assertion in assertions) {
-            val isValid = assertion.isValid(state.text)
+            val isValid = assertion.isValid(text)
             if (!isValid) {
                 result.addFailureAssertion(assertion)
             }
         }
         return result
     }
-
-    fun isNotEmpty() = assert(NotEmptyAssertion())
-
-    fun isNumber() = assert(NumberAssertion())
-
-    fun length() = assert(LengthAssertion())
-
-    fun isContainOnlyDigit() = assert(ContainOnlyDigitAssertion())
 
     fun <A : TextAssertion> assert(assertion: A): A {
         assertions.add(assertion)
@@ -33,3 +23,11 @@ class InputValidator {
         assertions.clear()
     }
 }
+
+fun InputValidator.isNotEmpty() = assert(NotEmptyAssertion())
+
+fun InputValidator.isNumber() = assert(NumberAssertion())
+
+fun InputValidator.length() = assert(LengthAssertion())
+
+fun InputValidator.isContainOnlyDigit() = assert(ContainOnlyDigitAssertion())

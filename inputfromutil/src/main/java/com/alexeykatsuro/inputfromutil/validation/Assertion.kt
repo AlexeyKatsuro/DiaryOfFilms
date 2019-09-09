@@ -15,6 +15,11 @@ abstract class Assertion<P> {
 
 }
 
+fun <P, A: Assertion<P>> A.errorMessage(message: String): A {
+    errorMessage = message
+    return this
+}
+
 abstract class TextAssertion : Assertion<String>() {
     abstract override fun isValid(param: String): Boolean
 }
