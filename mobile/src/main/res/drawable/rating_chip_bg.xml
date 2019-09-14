@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/chip_rating_background_color" />
+
+    <stroke
+        android:width="?attr/chip_rating_stroke_width"
+        android:color="?attr/chip_rating_stroke_color" />
+    <corners android:radius="?attr/chip_rating_corner_radius" />
+    <padding
+        android:bottom="?attr/chip_rating_padding"
+        android:left="?attr/chip_rating_padding"
+        android:right="?attr/chip_rating_padding"
+        android:top="?attr/chip_rating_padding" />
+</shape>

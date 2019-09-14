@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="chipRatingStyle" format="reference"/>
+    <declare-styleable name="ChipRatingTextView">
+        <attr name="chip_rating_padding" format="dimension"/>
+        <attr name="chip_rating_corner_radius" format="dimension"/>
+        <attr name="chip_rating_stroke_width" format="dimension"/>
+        <attr name="chip_rating_background_color" format="color"/>
+        <attr name="chip_rating_stroke_color" format="color"/>
+        <attr name="chip_rating_text_color" format="color"/>
+    </declare-styleable>
+</resources>

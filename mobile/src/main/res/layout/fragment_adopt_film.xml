@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <variable
+            name="onSaveClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="state"
+            type="com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmState" />
+
+        <variable
+            name="onRatingChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+
+        <variable
+            name="onSubjectiveRatingChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+
+        <variable
+            name="onTitleChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+
+        <variable
+            name="onYearChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+
+        <variable
+            name="onWatchingDateChange"
+            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+
+        <variable
+            name="onNavUpClick"
+            type="android.view.View.OnClickListener" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@android:color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.appbar.MaterialToolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:onNavigationClick="@{onNavUpClick}"
+                    app:navigationIcon="?attr/homeAsUpIndicator"
+                    app:title="@string/adopt_film_title" />
+            </com.google.android.material.appbar.AppBarLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horizontal_screen_margin"
+                android:layout_marginTop="@dimen/vertical_internal_margin"
+                android:layout_marginEnd="@dimen/horizontal_screen_margin"
+                android:hint="@string/adopt_film_name"
+                app:errorEnabled="true"
+                app:updateInput="@{state.title}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/app_bar">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    app:onValueChange="@{onTitleChange}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_year"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horizontal_screen_margin"
+                android:layout_marginTop="@dimen/vertical_screen_margin"
+                android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
+                android:hint="@string/adopt_film_year"
+                app:errorEnabled="true"
+                app:updateInput="@{state.year}"
+                app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/text_input_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:maxLength="4"
+                    app:onValueChange="@{onYearChange}"
+                    android:inputType="number" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/text_input_watching_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/horizontal_screen_margin_half"
+                android:layout_marginTop="@dimen/vertical_screen_margin"
+                android:layout_marginEnd="@dimen/horizontal_screen_margin"
+                android:hint="@string/adopt_film_watching_date"
+                app:errorEnabled="true"
+                app:updateInput="@{state.watchingDate}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/text_input_year"
+                app:layout_constraintTop_toBottomOf="@id/text_input_name">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="date"
+                    app:onValueChange="@{onWatchingDateChange}"
+                    app:mask="@{@string/date_mask}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <include
+                android:id="@+id/bar_rating"
+                layout="@layout/include_rating_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:title="@{@string/adopt_film_rating}"
+                app:rating="@{state.rating}"
+                android:layout_marginEnd="@dimen/horizontal_screen_margin"
+                android:layout_marginStart="@dimen/horizontal_screen_margin"
+                app:onRatingChange="@{onRatingChange}"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/vertical_internal_margin_small"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_input_year" />
+
+
+            <include
+                android:id="@+id/bar_subjective_rating"
+                layout="@layout/include_rating_bar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:rating="@{state.subjectiveRating}"
+                android:layout_marginEnd="@dimen/horizontal_screen_margin"
+                android:layout_marginStart="@dimen/horizontal_screen_margin"
+                app:onRatingChange="@{onSubjectiveRatingChange}"
+                android:layout_marginTop="@dimen/vertical_internal_margin_small"
+                app:title="@{@string/adopt_film_subjective_rating}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/bar_rating" />
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_adopt"
+                style="@style/Widget.DOF.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/vertical_screen_margin"
+                android:layout_marginStart="@dimen/horizontal_screen_margin"
+                android:layout_marginTop="@dimen/vertical_screen_margin"
+                android:layout_marginEnd="@dimen/horizontal_screen_margin"
+                android:onClick="@{onSaveClick}"
+                android:text="@string/adopt_film_save"
+                app:layout_constraintTop_toBottomOf="@id/bar_subjective_rating"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</layout>
