@@ -7,6 +7,9 @@ apply plugin: "androidx.navigation.safeargs.kotlin"
 androidExtensions {
     experimental = true
 }
+kapt {
+    correctErrorTypes = true
+}
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
@@ -69,7 +72,11 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
 
     implementation "com.airbnb.android:mvrx:$mvrx_version"
+    implementation "com.airbnb.android:epoxy:$epoxy_version"
+    implementation "com.airbnb.android:epoxy-databinding:$epoxy_version"
+    kapt "com.airbnb.android:epoxy-processor:$epoxy_version"
+
 
     implementation "com.afollestad:recyclical:$recyclical_version"
-    implementation "com.redmadrobot:inputmask:${input_mask_version}"
+    implementation "com.redmadrobot:inputmask:$input_mask_version"
 }

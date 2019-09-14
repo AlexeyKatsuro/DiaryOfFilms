@@ -1,12 +1,15 @@
 package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 
 import com.airbnb.mvrx.MvRxState
-import com.alexeykatsuro.inputfromutil.Input
 
 data class AdoptFilmState(
-    val title : Input = Input(),
-    val year : Input = Input(),
-    val watchingDate : Input = Input(),
+    val title : String = "",
+    val year : String = "",
+    val watchingDate : String = "",
     val rating : Float = 5.0f,
-    val subjectiveRating : Float = 5.0f
+    val subjectiveRating : Float = 5.0f,
+    val inputs: List<String> = List(5){
+        "Item $it"
+    }
+
 ): MvRxState

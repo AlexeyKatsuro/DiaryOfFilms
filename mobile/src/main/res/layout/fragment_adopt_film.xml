@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -38,14 +39,10 @@
 
     </data>
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
         <androidx.constraintlayout.widget.ConstraintLayout
 
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent">
 
             <com.google.android.material.appbar.AppBarLayout
                 android:id="@+id/app_bar"
@@ -74,7 +71,6 @@
                 android:layout_marginEnd="@dimen/horizontal_screen_margin"
                 android:hint="@string/adopt_film_name"
                 app:errorEnabled="true"
-                app:updateInput="@{state.title}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/app_bar">
@@ -83,6 +79,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
+                    app:updateText="@{state.title}"
                     app:onValueChange="@{onTitleChange}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -95,7 +92,6 @@
                 android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
                 android:hint="@string/adopt_film_year"
                 app:errorEnabled="true"
-                app:updateInput="@{state.year}"
                 app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -104,6 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="4"
+                    app:updateText="@{state.year}"
                     app:onValueChange="@{onYearChange}"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -117,7 +114,6 @@
                 android:layout_marginEnd="@dimen/horizontal_screen_margin"
                 android:hint="@string/adopt_film_watching_date"
                 app:errorEnabled="true"
-                app:updateInput="@{state.watchingDate}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/text_input_year"
                 app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -126,6 +122,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date"
+                    app:updateText="@{state.watchingDate}"
                     app:onValueChange="@{onWatchingDateChange}"
                     app:mask="@{@string/date_mask}" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -174,12 +171,22 @@
                 android:onClick="@{onSaveClick}"
                 android:text="@string/adopt_film_save"
                 app:layout_constraintTop_toBottomOf="@id/bar_subjective_rating"
-                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
+            <com.airbnb.epoxy.EpoxyRecyclerView
+                android:id="@+id/input_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/button_adopt"
+                tools:itemCount="3"
+                tools:listitem="@layout/view_holder_input" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
 
 </layout>

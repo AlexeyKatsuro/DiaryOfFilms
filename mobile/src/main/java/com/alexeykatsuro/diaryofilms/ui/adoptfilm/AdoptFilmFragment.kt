@@ -14,15 +14,14 @@ import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import com.alexeykatsuro.diaryofilms.util.OnValueChange
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
-import com.alexeykatsuro.diaryofilms.util.input.isDate
 import com.alexeykatsuro.inputfromutil.Input
-import com.alexeykatsuro.inputfromutil.validation.*
-import timber.log.Timber
+import com.alexeykatsuro.inputfromutil.validation.InputValidator
+import com.alexeykatsuro.inputfromutil.validation.onInvalidCallback
 import javax.inject.Inject
 import kotlin.reflect.KProperty1
 
 class AdoptFilmFragment :
-    DofMvRxFragment<FragmentAdoptFilmBinding>() {
+    DofMvRxFragment<FragmentAdoptFilmBinding>(), TempController.Callbacks {
 
     private lateinit var form_: Form_<AdoptFilmState, AdoptFilmViewModel>
 
@@ -33,17 +32,24 @@ class AdoptFilmFragment :
     override val inflater: BindingInflater<FragmentAdoptFilmBinding> =
         FragmentAdoptFilmBinding::inflate
 
+    private lateinit var controller: TempController
+
     override fun invalidate() = withState(viewModel) {
         withBinding {
             state = it
         }
+        controller.setData(it.inputs)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        controller = TempController()
+        controller.setCallBacks(this)
         initAssertions()
 
         withBinding {
+
+            inputRv.setController(controller)
 
             onNavUpClick = View.OnClickListener {
                 navController.navigateUp()
@@ -67,66 +73,42 @@ class AdoptFilmFragment :
             }
 
             onTitleChange = OnValueChange {
-                viewModel.updateState { copy(title = title.copy(text = it)) }
+                viewModel.updateState { copy(title = title) }
             }
 
             onYearChange = OnValueChange {
-                viewModel.updateState { copy(year = year.copy(text = it)) }
+                viewModel.updateState { copy(year = year) }
             }
 
             onWatchingDateChange = OnValueChange {
-                viewModel.updateState { copy(watchingDate = watchingDate.copy(text = it)) }
+                viewModel.updateState { copy(watchingDate = watchingDate) }
             }
         }
-        viewModel.selectSubscribe(viewLifecycleOwner, AdoptFilmState::title) {
 
-        }
+
         viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
             navController.navigateUp()
         }
+    }
 
-        /*viewModel.inputForm.run {
-            setupAssertions {
-                isNotEmpty()
-                    .errorMessage = getString(R.string.error_input_is_empty)
-            }
-
-            year.setupAssertions {
-                isNumber()
-                    .greaterThan(1900)
-                    .errorMessage = getString(R.string.error_input_invalid)
-                length()
-                    .exactly(4)
-                    .errorMessage = getString(R.string.error_input_invalid)
-            }
-
-            watchingDate.setupAssertions {
-                isDate(getString(R.string.date_pattern))
-                    .errorMessage = getString(R.string.error_input_date_pattern)
-            }
+    override fun onItemTextChanged(index: Int, text: String) {
+        viewModel.updateState {
+            copy(inputs = inputs.toMutableList().apply { set(index,text) })
         }
-
-        viewModel.onStateChanged.observeValue(viewLifecycleOwner) {
-            withBinding {
-                executeAfter {
-                    state = it
-                }
-            }
-        }*/
     }
 
     private fun assembleFilmRecord() = withState(viewModel) {
         FilmRecord(
-            title = it.title.text,
-            year = it.year.text.toInt(),
+            title = it.title,
+            year = it.year.toInt(),
             rating = it.rating,
             subjectiveRating = it.subjectiveRating,
-            watchingDate = it.watchingDate.text.parseDate(getString(R.string.date_pattern))
+            watchingDate = it.watchingDate.parseDate(getString(R.string.date_pattern))
         )
     }
 
     private fun initAssertions() {
-        form_ = createFrom(viewModel) { state ->
+        /*form_ = createFrom(viewModel) { state ->
             withField(AdoptFilmState::title, afterValidate = {
                 viewModel.updateState { copy(title = title.copy(errorMessage = it.messageOrNull())) }
             }) {
@@ -147,7 +129,7 @@ class AdoptFilmFragment :
                 isDate(getString(R.string.date_pattern)).errorMessage(getString(R.string.error_input_date_pattern))
             }
 
-        }
+        }*/
     }
 }
 
