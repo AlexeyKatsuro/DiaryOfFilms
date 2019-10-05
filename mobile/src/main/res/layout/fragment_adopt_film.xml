@@ -15,23 +15,23 @@
 
         <variable
             name="onRatingChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;Float>" />
 
         <variable
             name="onSubjectiveRatingChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;Float>" />
 
         <variable
             name="onTitleChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;String>" />
 
         <variable
             name="onYearChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;String>" />
 
         <variable
             name="onWatchingDateChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;String>" />
 
         <variable
             name="onNavUpClick"
@@ -79,8 +79,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="text"
-                    app:updateText="@{state.title}"
-                    app:onValueChange="@{onTitleChange}" />
+                    app:inputText="@{state.title}"
+                    app:onInputChange="@{onTitleChange}" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -100,8 +100,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="4"
-                    app:updateText="@{state.year}"
-                    app:onValueChange="@{onYearChange}"
+                    app:inputText="@{state.year}"
+                    app:onInputChange="@{onYearChange}"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -122,8 +122,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="date"
-                    app:updateText="@{state.watchingDate}"
-                    app:onValueChange="@{onWatchingDateChange}"
+                    app:inputText="@{state.watchingDate}"
+                    app:onInputChange="@{onWatchingDateChange}"
                     app:mask="@{@string/date_mask}" />
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -175,17 +175,20 @@
                 app:layout_constraintStart_toStartOf="parent"
                 />
 
-            <com.airbnb.epoxy.EpoxyRecyclerView
-                android:id="@+id/input_rv"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/button_adopt"
-                tools:itemCount="3"
-                tools:listitem="@layout/view_holder_input" />
+                app:layout_constraintTop_toBottomOf="@id/button_adopt">
+                <com.airbnb.epoxy.EpoxyRecyclerView
+                    android:id="@+id/input_rv"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/view_holder_input" />
+            </FrameLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

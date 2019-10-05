@@ -4,20 +4,14 @@ import android.text.Editable
 import android.text.TextWatcher
 
 class DynamicTextWatcher(
-    var afterChanged: ((String) -> Unit)? = null,
-    var beforeChanged: ((String) -> Unit)? = null,
-    var onChanged: ((String) -> Unit)? = null
+    var onValueChanged: OnValueChange<String>
 ) : TextWatcher {
 
-    override fun afterTextChanged(s: Editable?) {
-        afterChanged?.invoke(s.toString())
-    }
+    override fun afterTextChanged(s: Editable?) = Unit
 
-    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-        beforeChanged?.invoke(s.toString())
-    }
+    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) = Unit
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-        onChanged?.invoke(s.toString())
+        onValueChanged.onChanged(s?.toString() ?: "")
     }
 }

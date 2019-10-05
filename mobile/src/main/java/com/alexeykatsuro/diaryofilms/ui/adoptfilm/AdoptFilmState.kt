@@ -8,7 +8,7 @@ data class AdoptFilmState(
     val watchingDate : String = "",
     val rating : Float = 5.0f,
     val subjectiveRating : Float = 5.0f,
-    val inputs: List<String> = List(5){
+    val inputs: List<String> = List(20){
         "Item $it"
     }
 

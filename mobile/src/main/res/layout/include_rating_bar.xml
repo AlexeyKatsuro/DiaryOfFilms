@@ -15,7 +15,7 @@
 
         <variable
             name="onRatingChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;Float>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;Float>" />
 
     </data>
 

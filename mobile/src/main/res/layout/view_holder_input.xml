@@ -10,7 +10,7 @@
 
         <variable
             name="onTextChange"
-            type="com.alexeykatsuro.diaryofilms.util.OnValueChange&lt;String>" />
+            type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;String>" />
 
     </data>
 
@@ -31,8 +31,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="text"
-                app:updateText="@{text}"
-                app:onValueChange="@{onTextChange}" />
+                app:inputText="@{text}"
+                app:onInputChange="@{onTextChange}" />
         </com.google.android.material.textfield.TextInputLayout>
     </FrameLayout>
 </layout>

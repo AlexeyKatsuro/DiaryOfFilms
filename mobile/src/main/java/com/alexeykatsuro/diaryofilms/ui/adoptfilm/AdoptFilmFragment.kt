@@ -7,14 +7,15 @@ import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.alexeykatsuro.data.dto.FilmRecord
+import com.alexeykatsuro.data.util.extensions.copy
 import com.alexeykatsuro.data.util.extensions.observeEvent
 import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
-import com.alexeykatsuro.diaryofilms.util.OnValueChange
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
 import com.alexeykatsuro.inputfromutil.Input
+import com.alexeykatsuro.inputfromutil.OnValueChange
 import com.alexeykatsuro.inputfromutil.validation.InputValidator
 import com.alexeykatsuro.inputfromutil.validation.onInvalidCallback
 import javax.inject.Inject
@@ -39,10 +40,11 @@ class AdoptFilmFragment :
             state = it
         }
         controller.setData(it.inputs)
+
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         controller = TempController()
         controller.setCallBacks(this)
         initAssertions()
@@ -93,7 +95,7 @@ class AdoptFilmFragment :
 
     override fun onItemTextChanged(index: Int, text: String) {
         viewModel.updateState {
-            copy(inputs = inputs.toMutableList().apply { set(index,text) })
+            copy(inputs = inputs.copy(index, text))
         }
     }
 
@@ -133,7 +135,10 @@ class AdoptFilmFragment :
     }
 }
 
-fun <S : MvRxState, VM : BaseMvRxViewModel<S>> createFrom(vm: VM, initializer: Form_<S, VM>.(S) -> Unit): Form_<S, VM> {
+fun <S : MvRxState, VM : BaseMvRxViewModel<S>> createFrom(
+    vm: VM,
+    initializer: Form_<S, VM>.(S) -> Unit
+): Form_<S, VM> {
     val from = Form_(vm)
     withState(vm) {
         from.initializer(it)
@@ -147,7 +152,11 @@ class Form_<S : MvRxState, VM : BaseMvRxViewModel<S>>(
 
     private val mutableMap: MutableMap<KProperty1<S, Input>, InputTools> = mutableMapOf()
 
-    fun withField(input: KProperty1<S, Input>, afterValidate: onInvalidCallback, setup: InputValidator.() -> Unit) {
+    fun withField(
+        input: KProperty1<S, Input>,
+        afterValidate: onInvalidCallback,
+        setup: InputValidator.() -> Unit
+    ) {
         mutableMap[input] = InputTools(InputValidator().also(setup), afterValidate)
     }
 

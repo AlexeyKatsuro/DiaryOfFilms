@@ -63,9 +63,9 @@ fun EditText.onChange(onChanged: ((String) -> Unit)?) {
     val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, R.id.tag_text_dynamic_watcher)
 
     if (watcher != null) {
-        watcher.onChanged = onChanged
+        watcher.onValueChanged = OnValueChange { onChanged?.invoke(it) }
     } else {
-        val newWatcher = DynamicTextWatcher(onChanged)
+        val newWatcher = DynamicTextWatcher(OnValueChange { onChanged?.invoke(it) })
         addTextChangedListener(newWatcher)
         ListenerUtil.trackListener(this, newWatcher, R.id.tag_text_dynamic_watcher)
     }

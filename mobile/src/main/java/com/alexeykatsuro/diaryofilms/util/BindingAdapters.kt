@@ -14,10 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.alexeykatsuro.diaryofilms.util.extensions.addDividerItemDecoration
 import com.alexeykatsuro.diaryofilms.util.extensions.setAnimatedVisibility
 import com.alexeykatsuro.diaryofilms.util.extensions.setMask
-import com.alexeykatsuro.inputfromutil.DynamicTextWatcher
-import com.alexeykatsuro.inputfromutil.R
-import com.alexeykatsuro.inputfromutil.onChange
-import com.google.android.material.textfield.TextInputLayout
+import com.alexeykatsuro.inputfromutil.*
 
 /**
  * Data Binding adapters specific to the app.
@@ -34,7 +31,12 @@ fun showHideInvisible(view: View, show: Boolean) {
 }
 
 @BindingAdapter("mask", "maskShowHint", "maskExtractedValueCallback", requireAll = false)
-fun setMask(editText: EditText, mask: String, showHint: Boolean?, callback: ((extractedValue: String) -> Unit)?) {
+fun setMask(
+    editText: EditText,
+    mask: String,
+    showHint: Boolean?,
+    callback: ((extractedValue: String) -> Unit)?
+) {
     editText.setMask(mask, showHint ?: false, callback ?: {})
 }
 
@@ -61,28 +63,47 @@ fun setDefaultItemDecoration(recyclerView: RecyclerView, required: Boolean) {
 }
 
 @BindingAdapter("ratingView", "onRatingChange", requireAll = true)
-fun bindRatingSeekbar(seekBar: SeekBar, textValue: TextView, onRatingChange: OnValueChange<Float>?) {
+fun bindRatingSeekbar(
+    seekBar: SeekBar,
+    textValue: TextView,
+    onRatingChange: OnValueChange<Float>?
+) {
     seekBar.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
         override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
             val rating = progress / 10f
-            textValue.text =  String.format("%.1f", rating)
+            textValue.text = String.format("%.1f", rating)
         }
 
         override fun onStartTrackingTouch(seekBar: SeekBar) = Unit
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
-            onRatingChange?.onChanged(seekBar.progress/10f)
+            onRatingChange?.onChanged(seekBar.progress / 10f)
         }
 
     })
 }
 
 @BindingAdapter("onValueChange")
-fun EditText.onValueChange(onValueChange: OnValueChange<String>){
-        onChange (onValueChange::onChanged)
+fun EditText.onValueChange(onValueChange: OnValueChange<String>) {
+    onChange(onValueChange::onChanged)
 }
+
 @BindingAdapter("onNavigationClick")
-fun navigationOnClick(toolbar: Toolbar, onClickListener: View.OnClickListener){
+fun navigationOnClick(toolbar: Toolbar, onClickListener: View.OnClickListener) {
     toolbar.setNavigationOnClickListener(onClickListener)
+}
+
+@BindingAdapter("inputText", "onInputChange", requireAll = true)
+fun EditText.setInput(text: String?, callback: OnValueChange<String>) {
+    val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, R.id.tag_text_dynamic_watcher)
+    if (watcher != null) {
+        watcher.onValueChanged = callback
+    } else {
+        val newWatcher = DynamicTextWatcher(callback)
+        addTextChangedListener(newWatcher)
+        ListenerUtil.trackListener(this, newWatcher, R.id.tag_text_dynamic_watcher)
+    }
+
+    setTextAndCursor(text)
 }
 
