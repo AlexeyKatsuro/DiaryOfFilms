@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:toolas="http://schemas.android.com/tools">
+
+
+    <data>
+        <variable
+            name="item"
+            type="com.diaryoffilms.data.FilmAttr"/>
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="@dimen/margin_small">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{item.title}"
+            android:textSize="@dimen/normal_text"
+            toolas:text="@string/movie_title"/>
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{item.date}"
+            toolas:text="@string/release_date"
+            android:textSize="@dimen/normal_text" />
+
+        <TextView
+            android:id="@+id/rating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@{item.rating}"
+            toolas:text="@string/rating"
+            android:textSize="@dimen/normal_text" />
+
+    </LinearLayout>
+</layout>
