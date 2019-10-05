@@ -1,34 +1,48 @@
 package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 
+import android.view.View
 import com.airbnb.epoxy.TypedEpoxyController
+import com.alexeykatsuro.diaryofilms.filmInfoBlock
 import com.alexeykatsuro.diaryofilms.input
 import com.alexeykatsuro.inputfromutil.OnValueChange
 
-class TempController : TypedEpoxyController<List<String>>() {
+class TempController(val callbacks: Callbacks) : TypedEpoxyController<AdoptFilmState>() {
 
-    private var callbacks: Callbacks? = null
-    override fun buildModels(data: List<String>?) {
+    override fun buildModels(data: AdoptFilmState?) {
         if (data == null) return
 
-        data.forEachIndexed { index, s ->
+        filmInfoBlock {
+            id("filmInfoBlock")
+            state(data)
+            onRatingChange(callbacks.onRatingChange())
+            onSubjectiveRatingChange(callbacks.onSubjectiveRatingChange())
+            onTitleChange(callbacks.onTitleChange())
+            onYearChange(callbacks.onYearChange())
+            onWatchingDateChange(callbacks.onWatchingDateChange())
+            onSaveClick(callbacks.onSaveClick())
+        }
+
+        data.inputs.forEachIndexed { index, s ->
             input {
                 id("input$index")
                 text(s)
                 onTextChange(OnValueChange {
                     if (it != s) {
-                        callbacks?.onItemTextChanged(index, it)
+                        callbacks.onItemTextChanged(index, it)
                     }
                 })
             }
         }
     }
 
-    fun setCallBacks(callbacks: Callbacks?) {
-        this.callbacks = callbacks
-    }
-
-
     interface Callbacks {
         fun onItemTextChanged(index: Int, text: String)
+        fun onSaveClick(): View.OnClickListener
+        fun onRatingChange(): OnValueChange<Float>
+        fun onSubjectiveRatingChange(): OnValueChange<Float>
+        fun onWatchingDateChange(): OnValueChange<String>
+        fun onTitleChange(): OnValueChange<String>
+        fun onYearChange(): OnValueChange<String>
+
     }
 }

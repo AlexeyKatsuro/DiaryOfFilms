@@ -18,6 +18,7 @@ import com.alexeykatsuro.inputfromutil.Input
 import com.alexeykatsuro.inputfromutil.OnValueChange
 import com.alexeykatsuro.inputfromutil.validation.InputValidator
 import com.alexeykatsuro.inputfromutil.validation.onInvalidCallback
+import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KProperty1
 
@@ -36,17 +37,14 @@ class AdoptFilmFragment :
     private lateinit var controller: TempController
 
     override fun invalidate() = withState(viewModel) {
-        withBinding {
-            state = it
-        }
-        controller.setData(it.inputs)
+        Timber.e("$it")
+        controller.setData(it)
 
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        controller = TempController()
-        controller.setCallBacks(this)
+        controller = TempController(this)
         initAssertions()
 
         withBinding {
@@ -57,34 +55,7 @@ class AdoptFilmFragment :
                 navController.navigateUp()
             }
 
-            onSaveClick = View.OnClickListener {
-                if (form_.validate()) {
-                    viewModel.adoptFilm(assembleFilmRecord())
-                }
-            }
-            onRatingChange = OnValueChange {
-                viewModel.updateState {
-                    copy(rating = it)
-                }
-            }
 
-            onSubjectiveRatingChange = OnValueChange {
-                viewModel.updateState {
-                    copy(subjectiveRating = it)
-                }
-            }
-
-            onTitleChange = OnValueChange {
-                viewModel.updateState { copy(title = title) }
-            }
-
-            onYearChange = OnValueChange {
-                viewModel.updateState { copy(year = year) }
-            }
-
-            onWatchingDateChange = OnValueChange {
-                viewModel.updateState { copy(watchingDate = watchingDate) }
-            }
         }
 
 
@@ -97,6 +68,42 @@ class AdoptFilmFragment :
         viewModel.updateState {
             copy(inputs = inputs.copy(index, text))
         }
+    }
+
+    override fun onSaveClick() = View.OnClickListener {
+        Timber.e("onSaveClick")
+        if (form_.validate()) {
+            viewModel.adoptFilm(assembleFilmRecord())
+        }
+    }
+
+    override fun onRatingChange() = OnValueChange<Float> {
+        Timber.e("onRatingChange : $it")
+        viewModel.updateState {
+            copy(rating = it)
+        }
+    }
+
+    override fun onSubjectiveRatingChange() = OnValueChange<Float> {
+        Timber.e("onSubjectiveRatingChange : $it")
+        viewModel.updateState {
+            copy(subjectiveRating = it)
+        }
+    }
+
+    override fun onWatchingDateChange() = OnValueChange<String> {
+        Timber.e("onWatchingDateChange : $it")
+        viewModel.updateState { copy(watchingDate = it) }
+    }
+
+    override fun onTitleChange() = OnValueChange<String> {
+        Timber.e("onTitleChange : $it")
+        viewModel.updateState { copy(title = it) }
+    }
+
+    override fun onYearChange() = OnValueChange<String> {
+        Timber.e("onYearChange : $it")
+        viewModel.updateState { copy(year = it) }
     }
 
     private fun assembleFilmRecord() = withState(viewModel) {
