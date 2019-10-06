@@ -133,10 +133,22 @@ class AdoptFilmFragment :
                     .errorMessage(getString(R.string.error_input_date_pattern))
             }
 
-            state.inputs.forEachIndexed{ index , item ->
-                withField({ it.inputs[index] }, { copy(inputErrors = inputErrors.copy(index, it)) }) {
+            state.inputs.forEachIndexed { index, item ->
+                withField(
+                    input = { it.inputs[index] },
+                    reducer = { copy(inputErrors = inputErrors.copy(index, it)) },
+                    name = "$index"
+                ) {
                     isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
                 }
+            }
+            withField(name = "1") {
+                isNumber().greaterThan(1900)
+                    .errorMessage(getString(R.string.error_input_invalid))
+            }
+            withField("4") {
+                isDate(getString(R.string.date_pattern))
+                    .errorMessage(getString(R.string.error_input_date_pattern))
             }
 
             onStateChange { newState ->
@@ -162,15 +174,32 @@ class Form_<S : MvRxState, VM : BaseMvRxViewModel<S>>(
     private val viewModel: VM
 ) {
 
-    private val mutableMap: MutableMap<(S) -> String, InputTools<S>> = mutableMapOf()
+    private val itemMap: MutableMap<String, FormItem<S>> = mutableMapOf()
     private var onStateChanged: OnStateChanged<S>? = null
 
     fun withField(
         input: (S) -> String,
         reducer: ErrorReducer<S>,
+        name: String? = null,
         setup: Approver.() -> Unit
     ) {
-        mutableMap[input] = InputTools(Approver().also(setup), reducer)
+        val key = name ?: input.toString()
+        if (itemMap.contains(key)) {
+            val old: FormItem<S> = itemMap[key]!!
+            itemMap[key] = FormItem(input, old.approver.also(setup), reducer)
+        } else {
+            itemMap[key] = FormItem(input, Approver().also(setup), reducer)
+        }
+    }
+
+    fun withField(
+        name: String,
+        setup: Approver.() -> Unit
+    ) {
+        val old: FormItem<S> = itemMap[name]
+            ?: throw IllegalStateException("FormItem with $name doesn't exist in from")
+
+        itemMap[name] = FormItem(old.input, old.approver.also(setup), old.reducer)
     }
 
     fun onStateChange(onChanged: OnStateChanged<S>) {
@@ -181,13 +210,12 @@ class Form_<S : MvRxState, VM : BaseMvRxViewModel<S>>(
         var updatedState: S? = null
         return withState(viewModel) { state ->
             var result = true
-            mutableMap.asSequence().forEach { entry ->
-                val propertyValue = entry.key.invoke(state)
-                val tools = entry.value
-                val vresult: ValidResult = tools.approver.verify(propertyValue)
+            itemMap.values.forEach { item ->
+                val propertyValue = item.input(state)
+                val vresult: ValidResult = item.approver.verify(propertyValue)
                 val errorMessage = vresult.errorMessage
                 if (!silent) {
-                    val reducer = tools.reducer
+                    val reducer = item.reducer
                     updatedState = (updatedState ?: state).reducer(errorMessage)
                 }
 
@@ -204,3 +232,9 @@ class Form_<S : MvRxState, VM : BaseMvRxViewModel<S>>(
 }
 
 class InputTools<S>(val approver: Approver, val reducer: ErrorReducer<S>)
+
+class FormItem<S>(
+    val input: (S) -> String,
+    val approver: Approver,
+    val reducer: ErrorReducer<S>
+)
