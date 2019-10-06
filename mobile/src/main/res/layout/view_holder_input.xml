@@ -9,6 +9,10 @@
             type="String" />
 
         <variable
+            name="errorMessage"
+            type="String" />
+
+        <variable
             name="onTextChange"
             type="com.alexeykatsuro.inputfromutil.OnValueChange&lt;String>" />
 
@@ -22,6 +26,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:updateError="@{errorMessage}"
             android:layout_marginStart="@dimen/horizontal_screen_margin"
             android:layout_marginTop="@dimen/vertical_internal_margin"
             android:layout_marginEnd="@dimen/horizontal_screen_margin"

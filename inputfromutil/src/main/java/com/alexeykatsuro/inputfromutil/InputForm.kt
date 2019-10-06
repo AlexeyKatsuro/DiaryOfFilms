@@ -1,6 +1,6 @@
 package com.alexeykatsuro.inputfromutil
 
-import com.alexeykatsuro.inputfromutil.validation.InputValidator
+import com.alexeykatsuro.inputfromutil.validation.Approver
 
 
 typealias OnStateChanged<T> = (newState: T) -> Unit
@@ -38,7 +38,7 @@ abstract class InputForm<State : Any> {
 
     abstract fun createState(): State
 
-    fun setupAssertions(setup: InputValidator.() -> Unit) {
+    fun setupAssertions(setup: Approver.() -> Unit) {
         fromFields.forEach {
             it.setupAssertions(setup)
         }

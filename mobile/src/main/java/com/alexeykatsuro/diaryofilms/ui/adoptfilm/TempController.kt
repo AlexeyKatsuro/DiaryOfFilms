@@ -26,6 +26,7 @@ class TempController(val callbacks: Callbacks) : TypedEpoxyController<AdoptFilmS
             input {
                 id("input$index")
                 text(s)
+                errorMessage(data.inputErrors.getOrNull(index))
                 onTextChange(OnValueChange {
                     if (it != s) {
                         callbacks.onItemTextChanged(index, it)

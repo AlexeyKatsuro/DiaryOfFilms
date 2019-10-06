@@ -49,6 +49,7 @@
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_name"
             app:errorEnabled="true"
+            app:updateError="@{state.titleError}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -70,6 +71,7 @@
             android:layout_marginEnd="@dimen/horizontal_screen_margin_half"
             android:hint="@string/adopt_film_year"
             app:errorEnabled="true"
+            app:updateError="@{state.yearError}"
             app:layout_constraintEnd_toStartOf="@id/text_input_watching_date"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/text_input_name">
@@ -92,6 +94,7 @@
             android:layout_marginEnd="@dimen/horizontal_screen_margin"
             android:hint="@string/adopt_film_watching_date"
             app:errorEnabled="true"
+            app:updateError="@{state.watchingDateError}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/text_input_year"
             app:layout_constraintTop_toBottomOf="@id/text_input_name">

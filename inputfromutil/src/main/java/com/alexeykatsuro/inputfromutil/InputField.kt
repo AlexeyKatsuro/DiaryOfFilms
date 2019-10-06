@@ -1,11 +1,11 @@
 package com.alexeykatsuro.inputfromutil
 
-import com.alexeykatsuro.inputfromutil.validation.InputValidator
+import com.alexeykatsuro.inputfromutil.validation.Approver
 import com.alexeykatsuro.inputfromutil.validation.ValidResult
 
 class InputField internal constructor(default: String, private val onStateChanged: OnStateChanged<InputState>) {
 
-    private val inputValidator = InputValidator()
+    private val inputValidator = Approver()
 
     private var _state = InputState(default, onTextChange = {
         updateInputState {
@@ -27,7 +27,7 @@ class InputField internal constructor(default: String, private val onStateChange
         }
 
     fun validate(silent: Boolean = false): ValidResult {
-        val result = inputValidator.validate(state.text)
+        val result = inputValidator.verify(state.text)
         if (!silent) {
             updateInputState {
                 copy(
@@ -39,7 +39,7 @@ class InputField internal constructor(default: String, private val onStateChange
         return result
     }
 
-    fun setupAssertions(setup: InputValidator.() -> Unit) {
+    fun setupAssertions(setup: Approver.() -> Unit) {
         inputValidator.setup()
     }
 

@@ -17,17 +17,19 @@ class ValidResult {
     val errorMessage: String?
         get() = _failureAssertions.messageOrNull()
 
-    inline fun onValid(block: () -> Unit) {
-        if (isValid) block()
-    }
 
-    inline fun onInvalid(block: onInvalidCallback) {
-        if (hasErrors) block(failureAssertions)
-    }
 
     fun addFailureAssertion(assertion: Assertion<*>) {
         _failureAssertions.add(assertion)
     }
 }
 
-fun Failures.messageOrNull(): String? = firstOrNull()?.errorMessage
+fun Failures.messageOrNull(): String? = firstOrNull()?.failureMessage
+
+inline fun ValidResult.onValid(block: () -> Unit) {
+    if (isValid) block()
+}
+
+inline fun ValidResult.onInvalid(block: onInvalidCallback) {
+    if (hasErrors) block(failureAssertions)
+}

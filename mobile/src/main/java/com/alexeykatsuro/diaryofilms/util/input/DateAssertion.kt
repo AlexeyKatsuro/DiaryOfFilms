@@ -1,6 +1,6 @@
 package com.alexeykatsuro.diaryofilms.util.input
 
-import com.alexeykatsuro.inputfromutil.validation.InputValidator
+import com.alexeykatsuro.inputfromutil.validation.Approver
 import com.alexeykatsuro.inputfromutil.validation.TextAssertion
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -24,5 +24,5 @@ class DateAssertion(datePattern: String) : TextAssertion() {
 
 }
 
-fun InputValidator.isDate(datePattern: String): TextAssertion =
+fun Approver.isDate(datePattern: String): TextAssertion =
     assert(DateAssertion(datePattern))

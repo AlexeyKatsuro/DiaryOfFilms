@@ -102,3 +102,10 @@ fun TextInputLayout.updateInput(field: Input?) {
         }
     }
 }
+
+@BindingAdapter("updateError")
+fun TextInputLayout.updateError(errorMessage: String?) {
+    if (error != errorMessage) {
+        error = errorMessage
+    }
+}

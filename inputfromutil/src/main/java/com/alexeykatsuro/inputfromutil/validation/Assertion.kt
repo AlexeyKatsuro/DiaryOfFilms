@@ -3,7 +3,7 @@ package com.alexeykatsuro.inputfromutil.validation
 abstract class Assertion<P> {
     private var _errorMessage: String? = null
 
-    var errorMessage: String
+    var failureMessage: String
         get() = _errorMessage ?: defaultErrorMessage
         set(value) {
             _errorMessage = value
@@ -16,7 +16,7 @@ abstract class Assertion<P> {
 }
 
 fun <P, A: Assertion<P>> A.errorMessage(message: String): A {
-    errorMessage = message
+    failureMessage = message
     return this
 }
 

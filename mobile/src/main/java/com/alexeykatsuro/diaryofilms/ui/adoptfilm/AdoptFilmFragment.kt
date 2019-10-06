@@ -14,13 +14,12 @@ import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
-import com.alexeykatsuro.inputfromutil.Input
+import com.alexeykatsuro.diaryofilms.util.input.isDate
+import com.alexeykatsuro.inputfromutil.OnStateChanged
 import com.alexeykatsuro.inputfromutil.OnValueChange
-import com.alexeykatsuro.inputfromutil.validation.InputValidator
-import com.alexeykatsuro.inputfromutil.validation.onInvalidCallback
+import com.alexeykatsuro.inputfromutil.validation.*
 import timber.log.Timber
 import javax.inject.Inject
-import kotlin.reflect.KProperty1
 
 class AdoptFilmFragment :
     DofMvRxFragment<FragmentAdoptFilmBinding>(), TempController.Callbacks {
@@ -45,7 +44,7 @@ class AdoptFilmFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         controller = TempController(this)
-        initAssertions()
+        initForm()
 
         withBinding {
 
@@ -116,29 +115,34 @@ class AdoptFilmFragment :
         )
     }
 
-    private fun initAssertions() {
-        /*form_ = createFrom(viewModel) { state ->
-            withField(AdoptFilmState::title, afterValidate = {
-                viewModel.updateState { copy(title = title.copy(errorMessage = it.messageOrNull())) }
-            }) {
+    private fun initForm() {
+        form_ = createFrom(viewModel) { state ->
+            withField(AdoptFilmState::title, { copy(titleError = it) }) {
                 isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
             }
 
-            withField(AdoptFilmState::year, afterValidate = {
-                viewModel.updateState { copy(year = year.copy(errorMessage = it.messageOrNull())) }
-            }) {
+            withField(AdoptFilmState::year, { copy(yearError = it) }) {
                 isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
-                isNumber().greaterThan(1900).errorMessage(getString(R.string.error_input_invalid))
+                isNumber().greaterThan(1900)
+                    .errorMessage(getString(R.string.error_input_invalid))
             }
 
-            withField(AdoptFilmState::watchingDate, afterValidate = {
-                viewModel.updateState { copy(watchingDate = watchingDate.copy(errorMessage = it.messageOrNull())) }
-            }) {
+            withField(AdoptFilmState::watchingDate, { copy(watchingDateError = it) }) {
                 isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
-                isDate(getString(R.string.date_pattern)).errorMessage(getString(R.string.error_input_date_pattern))
+                isDate(getString(R.string.date_pattern))
+                    .errorMessage(getString(R.string.error_input_date_pattern))
             }
 
-        }*/
+            state.inputs.forEachIndexed{ index , item ->
+                withField({ it.inputs[index] }, { copy(inputErrors = inputErrors.copy(index, it)) }) {
+                    isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+                }
+            }
+
+            onStateChange { newState ->
+                viewModel.updateState { newState }
+            }
+        }
     }
 }
 
@@ -152,37 +156,51 @@ fun <S : MvRxState, VM : BaseMvRxViewModel<S>> createFrom(
     }
     return from
 }
+typealias ErrorReducer <S> = S.(error: String?) -> S
 
 class Form_<S : MvRxState, VM : BaseMvRxViewModel<S>>(
     private val viewModel: VM
 ) {
 
-    private val mutableMap: MutableMap<KProperty1<S, Input>, InputTools> = mutableMapOf()
+    private val mutableMap: MutableMap<(S) -> String, InputTools<S>> = mutableMapOf()
+    private var onStateChanged: OnStateChanged<S>? = null
 
     fun withField(
-        input: KProperty1<S, Input>,
-        afterValidate: onInvalidCallback,
-        setup: InputValidator.() -> Unit
+        input: (S) -> String,
+        reducer: ErrorReducer<S>,
+        setup: Approver.() -> Unit
     ) {
-        mutableMap[input] = InputTools(InputValidator().also(setup), afterValidate)
+        mutableMap[input] = InputTools(Approver().also(setup), reducer)
+    }
+
+    fun onStateChange(onChanged: OnStateChanged<S>) {
+        onStateChanged = onChanged
     }
 
     fun validate(silent: Boolean = false): Boolean {
+        var updatedState: S? = null
         return withState(viewModel) { state ->
             var result = true
             mutableMap.asSequence().forEach { entry ->
-                val text = entry.key.get(state).text
+                val propertyValue = entry.key.invoke(state)
                 val tools = entry.value
-                val vresult = tools.validator.validate(text)
+                val vresult: ValidResult = tools.approver.verify(propertyValue)
+                val errorMessage = vresult.errorMessage
                 if (!silent) {
-                    tools.onInvalid(vresult.failureAssertions)
+                    val reducer = tools.reducer
+                    updatedState = (updatedState ?: state).reducer(errorMessage)
                 }
 
                 result = vresult.isValid && result
+            }
+
+            updatedState?.let {
+                onStateChanged?.invoke(it)
+                    ?: throw IllegalStateException("Doesn't assigned 'onStateChange' behavior")
             }
             result
         }
     }
 }
 
-class InputTools(val validator: InputValidator, val onInvalid: onInvalidCallback)
+class InputTools<S>(val approver: Approver, val reducer: ErrorReducer<S>)

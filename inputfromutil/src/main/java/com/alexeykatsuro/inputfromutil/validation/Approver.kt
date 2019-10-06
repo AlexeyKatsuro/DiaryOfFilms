@@ -1,9 +1,9 @@
 package com.alexeykatsuro.inputfromutil.validation
 
-class InputValidator {
+class Approver {
     private val assertions = mutableListOf<TextAssertion>()
 
-    fun validate(text: String): ValidResult {
+    fun verify(text: String): ValidResult {
         val result = ValidResult()
         for (assertion in assertions) {
             val isValid = assertion.isValid(text)
@@ -24,10 +24,10 @@ class InputValidator {
     }
 }
 
-fun InputValidator.isNotEmpty() = assert(NotEmptyAssertion())
+fun Approver.isNotEmpty() = assert(NotEmptyAssertion())
 
-fun InputValidator.isNumber() = assert(NumberAssertion())
+fun Approver.isNumber() = assert(NumberAssertion())
 
-fun InputValidator.length() = assert(LengthAssertion())
+fun Approver.length() = assert(LengthAssertion())
 
-fun InputValidator.isContainOnlyDigit() = assert(ContainOnlyDigitAssertion())
+fun Approver.isContainOnlyDigit() = assert(ContainOnlyDigitAssertion())
