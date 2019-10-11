@@ -94,7 +94,7 @@ fun navigationOnClick(toolbar: Toolbar, onClickListener: View.OnClickListener) {
 }
 
 @BindingAdapter("inputText", "onInputChange", requireAll = true)
-fun EditText.setInput(text: String?, callback: OnValueChange<String>) {
+fun EditText.setInput(text: CharSequence?, callback: OnValueChange<String>?) {
     val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, R.id.tag_text_dynamic_watcher)
     if (watcher != null) {
         watcher.onValueChanged = callback

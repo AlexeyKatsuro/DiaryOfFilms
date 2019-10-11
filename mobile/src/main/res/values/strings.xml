@@ -20,4 +20,53 @@
     <string name="error_input_date_pattern">Некорректная дата</string>
 
 
+    <string name="save">Сохранить</string>
+    <string name="send">Отправить</string>
+    <string name="sample_title">Заявка на аккредитив</string>
+    <string name="sample_contract">Контракт</string>
+    <string name="sample_contract_number">Контракт</string>
+    <string name="sample_contract_date">Дата контракта</string>
+    <string name="sample_amount">Сумма</string>
+    <string name="sample_lc_amount">Сумма аккредитива</string>
+    <string name="sample_commission">Комиссия банков за пределами Азербайджана будет списана</string>
+    <string name="sample_account_seller">Со счета продавца</string>
+    <string name="sample_account_buyer">Со счета покупателя</string>
+    <string name="sample_seller">Продавец</string>
+    <string name="sample_seller_name">Наименование продавца</string>
+    <string name="sample_seller_address">Адрес продавца</string>
+    <string name="sample_seller_bank">Банк продавца</string>
+    <string name="sample_seller_bank_address">Адрес банка продавца</string>
+    <string name="sample_lc">Aккредитив</string>
+    <string name="sample_lc_type">Тип аккредитива</string>
+    <string name="sample_lc_term">Срок аккредитива</string>
+    <string name="sample_lc_payment">Оплата аккредитива</string>
+    <string name="sample_delivery_conditions">Условия поставки</string>
+    <string name="sample_conditions">Условия</string>
+    <string name="sample_partial_shipment">Разрешена частичная отгрузка</string>
+    <string name="sample_cargo_movement">Разрешено перемещение груза</string>
+    <string name="sample_last_date">Последняя дата отправки</string>
+    <string name="sample_shipment_place">Место отгрузки</string>
+    <string name="sample_delivery_place">Место доставки</string>
+    <string name="sample_description">Описание товара</string>
+    <string name="sample_special_conditions">Особые условия</string>
+    <string name="sample_contacts">Контакты</string>
+    <string name="sample_full_name">ФИО контактного лица</string>
+    <string name="sample_phone">Телефон контактного лица</string>
+    <string name="sample_fax">Факс контактного лица</string>
+    <string name="sample_documents">Документы</string>
+    <string name="sample_term_granting">Срок предоставления документов</string>
+    <string name="sample_account">Счет</string>
+    <string name="sample_original">Оригинал</string>
+    <string name="sample_copy">Копия</string>
+    <string name="sample_no">Нет</string>
+    <string name="sample_bill_lading">Коносамент</string>
+    <string name="sample_waybill">Транспортная накладная</string>
+    <string name="sample_crm">CRM</string>
+    <string name="sample_fcr">FCR</string>
+    <string name="sample_air_waybill">Авиа транспортная накладная</string>
+    <string name="sample_rail_waybill">ЖД транспортная накладная</string>
+    <string name="sample_insurance_policy">Страховой полис</string>
+    <string name="sample_doc_name">Наименование документа</string>
+
+
 </resources>

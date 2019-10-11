@@ -12,10 +12,21 @@
         <action
             android:id="@+id/showAdoptFilmFragment"
             app:destination="@id/adoptFilmFragment" />
+        <action
+            android:id="@+id/showSampleFragment"
+            app:destination="@id/sampleFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/adoptFilmFragment"
         android:name="com.alexeykatsuro.diaryofilms.ui.adoptfilm.AdoptFilmFragment"
         android:label="AdoptFilmFragment"
-        tools:layout="@layout/fragment_adopt_film"/>
+        tools:layout="@layout/fragment_adopt_film" />
+    <fragment
+        android:id="@+id/sampleFragment"
+        android:name="com.alexeykatsuro.diaryofilms.ui.sample.SampleFragment"
+        android:label="SampleFragment" />
 </navigation>

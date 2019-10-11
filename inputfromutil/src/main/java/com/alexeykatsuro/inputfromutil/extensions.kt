@@ -59,13 +59,13 @@ fun isTextDifferent(str1: CharSequence?, str2: CharSequence?): Boolean {
     return false
 }
 
-fun EditText.onChange(onChanged: ((String) -> Unit)?) {
+fun EditText.onChange(onChanged: ((String) -> Unit)) {
     val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, R.id.tag_text_dynamic_watcher)
 
     if (watcher != null) {
-        watcher.onValueChanged = OnValueChange { onChanged?.invoke(it) }
+        watcher.onValueChanged = OnValueChange { onChanged.invoke(it) }
     } else {
-        val newWatcher = DynamicTextWatcher(OnValueChange { onChanged?.invoke(it) })
+        val newWatcher = DynamicTextWatcher(OnValueChange { onChanged.invoke(it) })
         addTextChangedListener(newWatcher)
         ListenerUtil.trackListener(this, newWatcher, R.id.tag_text_dynamic_watcher)
     }

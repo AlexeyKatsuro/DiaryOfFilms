@@ -23,7 +23,8 @@ class HistoryFragment : DofMvRxFragment<FragmentHistoryBinding>() {
     override val inflater: BindingInflater<FragmentHistoryBinding> =
         FragmentHistoryBinding::inflate
 
-    @Inject lateinit var historyViewModelFactory: HistoryViewModel.Factory
+    @Inject
+    lateinit var historyViewModelFactory: HistoryViewModel.Factory
     private val viewModel: HistoryViewModel by fragmentViewModel()
 
     private val historyDataSource = emptyDataSourceTyped<FilmRecord>()
@@ -43,7 +44,8 @@ class HistoryFragment : DofMvRxFragment<FragmentHistoryBinding>() {
             }
 
             setOnAddFilmClick {
-                val direction = HistoryFragmentDirections.showAdoptFilmFragment()
+                //val direction = HistoryFragmentDirections.showAdoptFilmFragment()
+                val direction = HistoryFragmentDirections.showSampleFragment()
                 navController.navigate(direction)
             }
         }

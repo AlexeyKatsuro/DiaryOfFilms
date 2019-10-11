@@ -30,4 +30,7 @@
     <dimen name="chip_rating_padding">8dp</dimen>
     <dimen name="chip_rating_corner_radius">16dp</dimen>
     <dimen name="chip_rating_stroke_width">2dp</dimen>
+
+
+    <dimen name="list_item_padding">8dp</dimen>
 </resources>
