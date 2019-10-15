@@ -9,16 +9,11 @@ import com.airbnb.mvrx.ViewModelContext
 import com.alexeykatsuro.data.dto.FilmRecord
 import com.alexeykatsuro.data.repositories.HistoryRepository
 import com.alexeykatsuro.data.util.Event
-import com.alexeykatsuro.data.util.extensions.map
 import com.alexeykatsuro.data.util.extensions.triggerEvent
 import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxViewModel
-import com.alexeykatsuro.inputfromutil.createForm
 import com.squareup.inject.assisted.Assisted
 import com.squareup.inject.assisted.AssistedInject
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
-import kotlin.coroutines.resumeWithException
-import kotlin.coroutines.suspendCoroutine
 
 class AdoptFilmViewModel @AssistedInject constructor(
     @Assisted initialState: AdoptFilmState,
@@ -36,7 +31,7 @@ class AdoptFilmViewModel @AssistedInject constructor(
         }
     }
 
-    fun updateState(reducer: AdoptFilmState.() -> AdoptFilmState){
+    fun updateState(reducer: AdoptFilmState.() -> AdoptFilmState) {
         setState(reducer)
     }
 
@@ -47,8 +42,12 @@ class AdoptFilmViewModel @AssistedInject constructor(
     }
 
     companion object : MvRxViewModelFactory<AdoptFilmViewModel, AdoptFilmState> {
-        override fun create(viewModelContext: ViewModelContext, state: AdoptFilmState): AdoptFilmViewModel? {
-            val fragment: AdoptFilmFragment = (viewModelContext as FragmentViewModelContext).fragment()
+        override fun create(
+            viewModelContext: ViewModelContext,
+            state: AdoptFilmState
+        ): AdoptFilmViewModel? {
+            val fragment: AdoptFilmFragment =
+                (viewModelContext as FragmentViewModelContext).fragment()
             return fragment.viewModelFactory.create(state)
         }
     }

@@ -2,8 +2,6 @@ package com.alexeykatsuro.diaryofilms.ui.adoptfilm
 
 import android.os.Bundle
 import android.view.View
-import com.airbnb.mvrx.BaseMvRxViewModel
-import com.airbnb.mvrx.MvRxState
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
 import com.alexeykatsuro.data.dto.FilmRecord
@@ -15,16 +13,19 @@ import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.FragmentAdoptFilmBinding
 import com.alexeykatsuro.diaryofilms.util.extensions.parseDate
 import com.alexeykatsuro.diaryofilms.util.input.isDate
-import com.alexeykatsuro.inputfromutil.OnStateChanged
+import com.alexeykatsuro.inputfromutil.Form
 import com.alexeykatsuro.inputfromutil.OnValueChange
-import com.alexeykatsuro.inputfromutil.validation.*
+import com.alexeykatsuro.inputfromutil.createFrom
+import com.alexeykatsuro.inputfromutil.validation.assertions.errorMessage
+import com.alexeykatsuro.inputfromutil.validation.isNotEmpty
+import com.alexeykatsuro.inputfromutil.validation.isNumber
 import timber.log.Timber
 import javax.inject.Inject
 
 class AdoptFilmFragment :
     DofMvRxFragment<FragmentAdoptFilmBinding>(), TempController.Callbacks {
 
-    private lateinit var form_: Form_<AdoptFilmState, AdoptFilmViewModel>
+    private lateinit var form_: Form<AdoptFilmState>
 
     @Inject
     lateinit var viewModelFactory: AdoptFilmViewModel.Factory
@@ -116,37 +117,37 @@ class AdoptFilmFragment :
     }
 
     private fun initForm() {
-        form_ = createFrom(viewModel) { state ->
-            withField(AdoptFilmState::title, { copy(titleError = it) }) {
+        form_ = createFrom({ withState(viewModel) { it } }) { state ->
+            withProp(AdoptFilmState::title, { copy(titleError = it) }) {
                 isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
             }
 
-            withField(AdoptFilmState::year, { copy(yearError = it) }) {
+            withProp(AdoptFilmState::year, { copy(yearError = it) }) {
                 isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
                 isNumber().greaterThan(1900)
                     .errorMessage(getString(R.string.error_input_invalid))
             }
 
-            withField(AdoptFilmState::watchingDate, { copy(watchingDateError = it) }) {
+            withProp(AdoptFilmState::watchingDate, { copy(watchingDateError = it) }) {
                 isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
                 isDate(getString(R.string.date_pattern))
                     .errorMessage(getString(R.string.error_input_date_pattern))
             }
 
             state.inputs.forEachIndexed { index, item ->
-                withField(
-                    input = { it.inputs[index] },
+                withProp(
+                    propProvider = { it.inputs[index] },
                     reducer = { copy(inputErrors = inputErrors.copy(index, it)) },
                     name = "$index"
                 ) {
                     isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
                 }
             }
-            withField(name = "1") {
+            withProp<String>(name = "1") {
                 isNumber().greaterThan(1900)
                     .errorMessage(getString(R.string.error_input_invalid))
             }
-            withField("4") {
+            withProp<String>("4") {
                 isDate(getString(R.string.date_pattern))
                     .errorMessage(getString(R.string.error_input_date_pattern))
             }
@@ -158,83 +159,9 @@ class AdoptFilmFragment :
     }
 }
 
-fun <S : MvRxState, VM : BaseMvRxViewModel<S>> createFrom(
-    vm: VM,
-    initializer: Form_<S, VM>.(S) -> Unit
-): Form_<S, VM> {
-    val from = Form_(vm)
-    withState(vm) {
-        from.initializer(it)
-    }
-    return from
-}
-typealias ErrorReducer <S> = S.(error: String?) -> S
 
-class Form_<S : MvRxState, VM : BaseMvRxViewModel<S>>(
-    private val viewModel: VM
-) {
 
-    private val itemMap: MutableMap<String, FormItem<S>> = mutableMapOf()
-    private var onStateChanged: OnStateChanged<S>? = null
 
-    fun withField(
-        input: (S) -> String,
-        reducer: ErrorReducer<S>,
-        name: String? = null,
-        setup: Approver.() -> Unit
-    ) {
-        val key = name ?: input.toString()
-        if (itemMap.contains(key)) {
-            val old: FormItem<S> = itemMap[key]!!
-            itemMap[key] = FormItem(input, old.approver.also(setup), reducer)
-        } else {
-            itemMap[key] = FormItem(input, Approver().also(setup), reducer)
-        }
-    }
 
-    fun withField(
-        name: String,
-        setup: Approver.() -> Unit
-    ) {
-        val old: FormItem<S> = itemMap[name]
-            ?: throw IllegalStateException("FormItem with $name doesn't exist in from")
 
-        itemMap[name] = FormItem(old.input, old.approver.also(setup), old.reducer)
-    }
 
-    fun onStateChange(onChanged: OnStateChanged<S>) {
-        onStateChanged = onChanged
-    }
-
-    fun validate(silent: Boolean = false): Boolean {
-        var updatedState: S? = null
-        return withState(viewModel) { state ->
-            var result = true
-            itemMap.values.forEach { item ->
-                val propertyValue = item.input(state)
-                val vresult: ValidResult = item.approver.verify(propertyValue)
-                val errorMessage = vresult.errorMessage
-                if (!silent) {
-                    val reducer = item.reducer
-                    updatedState = (updatedState ?: state).reducer(errorMessage)
-                }
-
-                result = vresult.isValid && result
-            }
-
-            updatedState?.let {
-                onStateChanged?.invoke(it)
-                    ?: throw IllegalStateException("Doesn't assigned 'onStateChange' behavior")
-            }
-            result
-        }
-    }
-}
-
-class InputTools<S>(val approver: Approver, val reducer: ErrorReducer<S>)
-
-class FormItem<S>(
-    val input: (S) -> String,
-    val approver: Approver,
-    val reducer: ErrorReducer<S>
-)

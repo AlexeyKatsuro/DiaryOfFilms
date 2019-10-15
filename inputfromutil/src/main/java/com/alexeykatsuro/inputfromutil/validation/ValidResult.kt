@@ -1,5 +1,7 @@
 package com.alexeykatsuro.inputfromutil.validation
 
+import com.alexeykatsuro.inputfromutil.validation.assertions.Assertion
+
 typealias Failures = List<Assertion<*>>
 typealias onInvalidCallback = (Failures) -> Unit
 

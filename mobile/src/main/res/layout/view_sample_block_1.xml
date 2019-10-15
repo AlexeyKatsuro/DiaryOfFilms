@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <merge
+        tools:parentTag="androidx.constraintlayout.widget.ConstraintLayout">
+
+        <TextView
+            android:id="@+id/text_contract"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginTop="@dimen/internal_spacing"
+            android:text="@string/sample_contract"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_contract_number"
+            style="@style/Widget.DOF.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginTop="@dimen/spacing_mini"
+            app:layout_constraintEnd_toStartOf="@+id/input_contract_date"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_contract">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sample_contract_number"
+                android:textSize="@dimen/normal_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_contract_date"
+            style="@style/Widget.DOF.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginEnd="@dimen/internal_spacing"
+            app:layout_constraintBottom_toBottomOf="@+id/input_contract_number"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/input_contract_number"
+            app:layout_constraintTop_toTopOf="@+id/input_contract_number">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/sample_contract_date"
+                android:textSize="@dimen/normal_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginTop="@dimen/internal_spacing"
+            android:text="@string/sample_amount"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/medium_text"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_contract_number" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_lc_amount"
+            style="@style/Widget.DOF.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginTop="@dimen/spacing_mini"
+            android:layout_marginEnd="@dimen/internal_spacing"
+            android:hint="@string/sample_lc_amount"
+            app:layout_constraintEnd_toStartOf="@+id/input_currency"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_amount">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/normal_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/input_currency"
+            style="@style/Widget.DOF.TextInputLayout.OutlinedBox"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/internal_spacing"
+            app:layout_constraintBottom_toBottomOf="@+id/input_lc_amount"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/input_lc_amount">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Валюта"
+                android:textSize="@dimen/normal_text" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/text_commission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginTop="@dimen/spacing_mini"
+            android:layout_marginEnd="@dimen/internal_spacing"
+            android:text="@string/sample_commission"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="@dimen/normal_text"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/input_lc_amount" />
+
+        <RadioGroup
+            android:id="@+id/group_commission"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginTop="@dimen/spacing_mini"
+            android:layout_marginEnd="@dimen/internal_spacing"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/text_commission">
+
+            <RadioButton
+                android:id="@+id/button_Buyer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sample_account_buyer"
+                android:textSize="@dimen/normal_text" />
+
+            <RadioButton
+                android:id="@+id/button_seller"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/sample_account_seller"
+                android:textSize="@dimen/normal_text" />
+
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="?attr/colorError"
+            android:layout_marginStart="@dimen/internal_spacing"
+            android:layout_marginEnd="@dimen/internal_spacing"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/group_commission"
+            app:layout_constraintVertical_bias="0"
+            tools:text="Error" />
+
+    </merge>
+</layout>

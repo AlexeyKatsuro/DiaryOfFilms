@@ -8,11 +8,24 @@ var TextInputLayout.text: String
     get() = editText!!.text.toString()
     set(value) = editText!!.setText(value)
 
-fun TextInputLayout.setMask(mask: String, showHint: Boolean = false, handleValue: (extractedValue: String) -> Unit) {
+fun TextInputLayout.setText(text: CharSequence?) {
+    editText!!.setText(text)
+}
+
+
+fun TextInputLayout.setMask(
+    mask: String,
+    showHint: Boolean = false,
+    handleValue: (extractedValue: String) -> Unit
+) {
     editText!!.setMask(mask, showHint, handleValue)
 }
 
-fun EditText.setMask(mask: String, showHint: Boolean = false, handleValue: (extractedValue: String) -> Unit) {
+fun EditText.setMask(
+    mask: String,
+    showHint: Boolean = false,
+    handleValue: (extractedValue: String) -> Unit
+) {
     val listener = MaskedTextChangedListener.installOn(
         this,
         mask,

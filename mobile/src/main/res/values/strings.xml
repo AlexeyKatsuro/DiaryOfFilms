@@ -37,6 +37,7 @@
     <string name="sample_seller_bank">Банк продавца</string>
     <string name="sample_seller_bank_address">Адрес банка продавца</string>
     <string name="sample_lc">Aккредитив</string>
+    <string name="sample_percent">Процентная ставка</string>
     <string name="sample_lc_type">Тип аккредитива</string>
     <string name="sample_lc_term">Срок аккредитива</string>
     <string name="sample_lc_payment">Оплата аккредитива</string>

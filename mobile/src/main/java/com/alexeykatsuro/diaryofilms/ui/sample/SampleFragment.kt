@@ -4,10 +4,19 @@ import android.os.Bundle
 import android.view.View
 import com.airbnb.mvrx.fragmentViewModel
 import com.airbnb.mvrx.withState
+import com.alexeykatsuro.diaryofilms.R
 import com.alexeykatsuro.diaryofilms.base.BindingInflater
 import com.alexeykatsuro.diaryofilms.base.mvrx.DofMvRxFragment
 import com.alexeykatsuro.diaryofilms.databinding.LayoutSampleBinding
 import com.alexeykatsuro.diaryofilms.util.extensions.lazyFast
+import com.alexeykatsuro.diaryofilms.util.extensions.toast
+import com.alexeykatsuro.inputfromutil.OnValueChange
+import com.alexeykatsuro.inputfromutil.StateProvider
+import com.alexeykatsuro.inputfromutil.createFrom
+import com.alexeykatsuro.inputfromutil.validation.assert
+import com.alexeykatsuro.inputfromutil.validation.assertions.errorMessage
+import com.alexeykatsuro.inputfromutil.validation.isNotEmpty
+import com.alexeykatsuro.inputfromutil.validation.isNumber
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -18,6 +27,8 @@ class SampleFragment : DofMvRxFragment<LayoutSampleBinding>() {
     lateinit var factory: SampleViewModel.Factory
 
     private val controller by lazyFast { epoxyController() }
+
+    private val form by lazyFast { makeForm() }
 
     private val viewModel: SampleViewModel by fragmentViewModel()
 
@@ -38,7 +49,6 @@ class SampleFragment : DofMvRxFragment<LayoutSampleBinding>() {
             onNavUpClick = View.OnClickListener {
                 navController.navigateUp()
             }
-
             inputRv.setController(controller)
         }
     }
@@ -47,23 +57,81 @@ class SampleFragment : DofMvRxFragment<LayoutSampleBinding>() {
     val controllerCallbacks = object : SampleController.Callbacks {
 
         override fun onSend() = withState(viewModel) {
-            Timber.d("$it")
+            if (form.validate()) {
+                toast("ok")
+            }
         }
 
-        override fun onSellerNameChanged(text: String) {
-            viewModel.updateState { copy(sellerName = text) }
+        override val onSellerNameChanged = OnValueChange<String> {
+            viewModel.updateState { copy(sellerName = it, sellerNameError = null) }
         }
 
-        override fun onSellerAddressChanged(text: String) {
-            viewModel.updateState { copy(sellerAddress = text) }
+        override val onSellerAddressChanged = OnValueChange<String> {
+            viewModel.updateState { copy(sellerAddress = it, sellerAddressError = null) }
         }
 
-        override fun onSellerBankChanged(text: String) {
-            viewModel.updateState { copy(sellerBank = text) }
+        override val onSellerBankChanged = OnValueChange<String> {
+            viewModel.updateState { copy(sellerBank = it, sellerBankError = null) }
         }
 
-        override fun onSellerBankAddressChanged(text: String) {
-            viewModel.updateState { copy(sellerBankAddress = text) }
+        override val onSellerBankAddressChanged = OnValueChange<String> {
+            viewModel.updateState { copy(sellerBankAddress = it, sellerBankAddressError = null) }
+        }
+
+        override val onContractNumberChanged = OnValueChange<String> {
+            viewModel.updateState { copy(contractNumber = it) }
+        }
+        override val onContractDateChanged = OnValueChange<String> {
+            viewModel.updateState { copy(contractDate = it) }
+        }
+        override val onAmountChanged = OnValueChange<String> {
+            viewModel.updateState { copy(amount = it) }
+        }
+        override val onCurrencyChanged = OnValueChange<String> {
+            viewModel.updateState { copy(currency = it) }
+        }
+        override val onAccountSellerChanged = OnValueChange<Boolean> {
+            viewModel.updateState { copy(isAccountSeller = it, accountTypeError = null) }
+        }
+        override val onAccountBuyerChanged = OnValueChange<Boolean> {
+            viewModel.updateState { copy(isAccountBuyer = it, accountTypeError = null) }
+        }
+
+        override val onPercentChanged = OnValueChange<Float> {
+            viewModel.updateState { copy(interestRate = it, interestRateError = null) }
+        }
+    }
+
+    private val stateProvider: StateProvider<SampleState> = { withState(viewModel) { it } }
+
+    private fun makeForm() = createFrom(stateProvider) {
+        withProp(SampleState::sellerName, { copy(sellerNameError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+
+        withProp(SampleState::sellerAddress, { copy(sellerAddressError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+
+        withProp(SampleState::sellerBank, { copy(sellerBankError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+
+        withProp(SampleState::sellerBankAddress, { copy(sellerBankAddressError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+
+        withProp(SampleState::interestRate, { copy(interestRateError = it) }) {
+            isNumber().greaterThan(5f).errorMessage("Ставка должна быть > 5")
+        }
+
+        withState(reducer = { copy(accountTypeError = it) }) {
+            assert("Выберите тип") { it.isAccountBuyer || it.isAccountSeller }
+        }
+
+        onStateChange {
+            Timber.e("onStateChange $it")
+            viewModel.updateState { it }
         }
     }
 }

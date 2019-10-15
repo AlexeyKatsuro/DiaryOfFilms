@@ -71,27 +71,27 @@ fun EditText.onChange(onChanged: ((String) -> Unit)) {
     }
 }
 
-/**
- * Combined method with [setTextAndCursor] and [onChange] functionality
- */
-@BindingAdapter("bindInputState")
-fun EditText.bindInputState(field: InputState?) {
-    if (field != null) {
-        setTextAndCursor(field.text)
-        onChange(field.onTextChange)
-    }
-}
-
-@BindingAdapter("bindInputState")
-fun TextInputLayout.bindInputLayoutState(field: InputState?) {
-    if (field != null) {
-        editText!!.setTextAndCursor(field.text)
-        editText!!.onChange(field.onTextChange)
-        if (error != field.errorMessage) {
-            error = field.errorMessage
-        }
-    }
-}
+///**
+// * Combined method with [setTextAndCursor] and [onChange] functionality
+// */
+//@BindingAdapter("bindInputState")
+//fun EditText.bindInputState(field: InputState?) {
+//    if (field != null) {
+//        setTextAndCursor(field.text)
+//        onChange(field.onTextChange)
+//    }
+//}
+//
+//@BindingAdapter("bindInputState")
+//fun TextInputLayout.bindInputLayoutState(field: InputState?) {
+//    if (field != null) {
+//        editText!!.setTextAndCursor(field.text)
+//        editText!!.onChange(field.onTextChange)
+//        if (error != field.errorMessage) {
+//            error = field.errorMessage
+//        }
+//    }
+//}
 
 @BindingAdapter("updateInput")
 fun TextInputLayout.updateInput(field: Input?) {
@@ -108,4 +108,24 @@ fun TextInputLayout.updateError(errorMessage: String?) {
     if (error != errorMessage) {
         error = errorMessage
     }
+}
+
+fun <S> createFrom(provider: StateProvider<S>,initializer: Form<S>.(S) -> Unit): Form<S> {
+    val from = Form(provider)
+        from.initializer(provider.invoke())
+    return from
+}
+
+@BindingAdapter("inputText", "onInputChange", requireAll = true)
+fun EditText.setInput(text: CharSequence?, callback: OnValueChange<String>?) {
+    val watcher = ListenerUtil.getListener<DynamicTextWatcher>(this, R.id.tag_text_dynamic_watcher)
+    if (watcher != null) {
+        watcher.onValueChanged = callback
+    } else {
+        val newWatcher = DynamicTextWatcher(callback)
+        addTextChangedListener(newWatcher)
+        ListenerUtil.trackListener(this, newWatcher, R.id.tag_text_dynamic_watcher)
+    }
+
+    setTextAndCursor(text)
 }
