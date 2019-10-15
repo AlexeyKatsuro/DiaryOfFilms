@@ -20,8 +20,7 @@ class ValidResult {
         get() = _failureAssertions.messageOrNull()
 
 
-
-    fun addFailureAssertion(assertion: Assertion<*>) {
+    internal fun addFailureAssertion(assertion: Assertion<*>) {
         _failureAssertions.add(assertion)
     }
 }

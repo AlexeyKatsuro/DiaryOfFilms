@@ -22,9 +22,17 @@ class SampleController : TypedEpoxyController<SampleState>() {
         sampleBlock1Model {
             id("sampleBlock1Model")
             contractNumber(InputCover(data.contractNumber, callbacks?.onContractNumberChanged))
+            contractNumberError(data.contractNumberError)
+
             contractDate(InputCover(data.contractDate, callbacks?.onContractDateChanged))
+            contractDateError(data.contractDateError)
+
             amount(InputCover(data.amount, callbacks?.onAmountChanged))
+            amountError(data.amountError)
+
             currency(InputCover(data.currency, callbacks?.onCurrencyChanged))
+            currencyError(data.currencyError)
+
             isAccountSeller(RadioCover(data.isAccountSeller, callbacks?.onAccountSellerChanged))
             isAccountBuyer(RadioCover(data.isAccountBuyer, callbacks?.onAccountBuyerChanged))
             accountError(data.accountTypeError)

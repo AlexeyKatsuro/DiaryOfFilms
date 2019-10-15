@@ -11,7 +11,7 @@ data class AdoptFilmState(
     val watchingDateError : String? = null,
     val rating : Float = 5.0f,
     val subjectiveRating : Float = 5.0f,
-    val inputs: List<String> = List(5){
+    val inputs: List<String> = List(25){
         "Item $it"
     },
     val inputErrors: List<String?> = inputs.map { null }

@@ -21,6 +21,7 @@ class Form<S>(private val stateProvider: StateProvider<S>) {
     ) {
         val key = name ?: propProvider.toString()
         if (itemMap.contains(key)) {
+            @Suppress("UNCHECKED_CAST")
             val old: GenericFormItem<S, T> = itemMap[key]!! as GenericFormItem<S, T>
             itemMap[key] = GenericFormItem(propProvider, old.approver.also(setup), reducer)
         } else {
@@ -28,10 +29,11 @@ class Form<S>(private val stateProvider: StateProvider<S>) {
         }
     }
 
-    fun <T> withProp(
+    fun <T> withNamedProp(
         name: String,
         setup: Approver<T>.() -> Unit
     ) {
+        @Suppress("UNCHECKED_CAST")
         val old: GenericFormItem<S, T> = itemMap[name] as GenericFormItem<S, T>?
             ?: throw IllegalStateException("FormItem with $name doesn't exist in from")
 

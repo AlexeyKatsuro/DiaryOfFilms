@@ -12,6 +12,7 @@ import com.airbnb.epoxy.ModelView
 import com.airbnb.epoxy.TextProp
 import com.alexeykatsuro.diaryofilms.databinding.ViewRatingBarBinding
 import com.alexeykatsuro.inputfromutil.OnValueChange
+import kotlin.math.roundToInt
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class RatingBarModel @JvmOverloads constructor(
@@ -32,6 +33,7 @@ class RatingBarModel @JvmOverloads constructor(
     @ModelProp
     fun setRating(@FloatRange(from = 0.0, to = 10.0) rating: Float) {
         binding.textValue.text = String.format("%.1f", rating)
+        binding.seekBar.progress = (10*rating).toInt()
     }
 
     @CallbackProp

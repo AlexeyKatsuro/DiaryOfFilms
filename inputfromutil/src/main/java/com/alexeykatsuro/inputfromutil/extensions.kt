@@ -97,22 +97,20 @@ fun EditText.onChange(onChanged: ((String) -> Unit)) {
 fun TextInputLayout.updateInput(field: Input?) {
     if (field != null) {
         editText!!.setTextAndCursor(field.text)
-        if (error != field.errorMessage) {
-            error = field.errorMessage
-        }
+        updateError(field.errorMessage)
     }
 }
 
 @BindingAdapter("updateError")
-fun TextInputLayout.updateError(errorMessage: String?) {
-    if (error != errorMessage) {
-        error = errorMessage
+fun TextInputLayout.updateError(message: CharSequence?) {
+    if (isTextDifferent(error, message)) {
+        error = message
     }
 }
 
-fun <S> createFrom(provider: StateProvider<S>,initializer: Form<S>.(S) -> Unit): Form<S> {
+fun <S> createFrom(provider: StateProvider<S>, initializer: Form<S>.(S) -> Unit): Form<S> {
     val from = Form(provider)
-        from.initializer(provider.invoke())
+    from.initializer(provider.invoke())
     return from
 }
 

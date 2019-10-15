@@ -4,10 +4,16 @@ import com.airbnb.mvrx.MvRxState
 
 data class SampleState(
     val contractNumber: String = "",
+    val contractNumberError: String? = null,
+
     val contractDate: String = "",
+    val contractDateError: String? = null,
 
     val amount: String = "",
+    val amountError: String? = null,
+
     val currency: String = "",
+    val currencyError: String? = null,
 
     val isAccountSeller: Boolean = false,
     val isAccountBuyer: Boolean = false,

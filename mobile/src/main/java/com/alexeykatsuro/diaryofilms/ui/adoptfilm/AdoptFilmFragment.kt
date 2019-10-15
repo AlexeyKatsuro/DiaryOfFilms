@@ -54,10 +54,7 @@ class AdoptFilmFragment :
             onNavUpClick = View.OnClickListener {
                 navController.navigateUp()
             }
-
-
         }
-
 
         viewModel.onFilmSaved.observeEvent(viewLifecycleOwner) {
             navController.navigateUp()
@@ -143,11 +140,11 @@ class AdoptFilmFragment :
                     isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
                 }
             }
-            withProp<String>(name = "1") {
+            withNamedProp<String>(name = "1") {
                 isNumber().greaterThan(1900)
                     .errorMessage(getString(R.string.error_input_invalid))
             }
-            withProp<String>("4") {
+            withNamedProp<String>("4") {
                 isDate(getString(R.string.date_pattern))
                     .errorMessage(getString(R.string.error_input_date_pattern))
             }

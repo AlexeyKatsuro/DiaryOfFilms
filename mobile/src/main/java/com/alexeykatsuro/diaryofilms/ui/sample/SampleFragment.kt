@@ -13,6 +13,7 @@ import com.alexeykatsuro.diaryofilms.util.extensions.toast
 import com.alexeykatsuro.inputfromutil.OnValueChange
 import com.alexeykatsuro.inputfromutil.StateProvider
 import com.alexeykatsuro.inputfromutil.createFrom
+import com.alexeykatsuro.inputfromutil.validation.Condition
 import com.alexeykatsuro.inputfromutil.validation.assert
 import com.alexeykatsuro.inputfromutil.validation.assertions.errorMessage
 import com.alexeykatsuro.inputfromutil.validation.isNotEmpty
@@ -105,24 +106,51 @@ class SampleFragment : DofMvRxFragment<LayoutSampleBinding>() {
     private val stateProvider: StateProvider<SampleState> = { withState(viewModel) { it } }
 
     private fun makeForm() = createFrom(stateProvider) {
-        withProp(SampleState::sellerName, { copy(sellerNameError = it) }) {
+
+        withProp(SampleState::contractNumber, { copy(contractNumberError = it) }) {
             isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+        withProp(SampleState::contractDate, { copy(contractDateError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+        withProp(SampleState::amount, { copy(amountError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+        withProp(SampleState::currency, { copy(currencyError = it) }) {
+            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+        }
+
+        val isSellerCondition: Condition = { stateProvider().isAccountSeller }
+        val isBuyerCondition: Condition = { stateProvider().isAccountBuyer }
+
+        withProp(SampleState::sellerName, { copy(sellerNameError = it) }) {
+            condition(isBuyerCondition) {
+                isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            }
         }
 
         withProp(SampleState::sellerAddress, { copy(sellerAddressError = it) }) {
-            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            condition(isBuyerCondition) {
+                isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            }
         }
 
         withProp(SampleState::sellerBank, { copy(sellerBankError = it) }) {
-            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            condition(isBuyerCondition) {
+                isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            }
         }
 
         withProp(SampleState::sellerBankAddress, { copy(sellerBankAddressError = it) }) {
-            isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            condition(isBuyerCondition) {
+                isNotEmpty().errorMessage(getString(R.string.error_input_is_empty))
+            }
         }
 
         withProp(SampleState::interestRate, { copy(interestRateError = it) }) {
-            isNumber().greaterThan(5f).errorMessage("Ставка должна быть > 5")
+            condition(isSellerCondition) {
+                isNumber().greaterThan(5f).errorMessage("Ставка должна быть > 5")
+            }
         }
 
         withState(reducer = { copy(accountTypeError = it) }) {

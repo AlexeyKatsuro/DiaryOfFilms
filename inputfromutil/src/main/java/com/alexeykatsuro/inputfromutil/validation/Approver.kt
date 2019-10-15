@@ -10,25 +10,38 @@ import com.alexeykatsuro.inputfromutil.validation.assertions.text.NotEmptyAssert
 
 class Approver<T> {
     private val assertions = mutableListOf<Assertion<T>>()
+    private val conditionStack = ConditionStack()
 
     fun verify(param: T): ValidResult {
         val result = ValidResult()
         for (assertion in assertions) {
-            val isValid = assertion.isValid(param)
-            if (!isValid) {
-                result.addFailureAssertion(assertion)
+            if (!assertion.isConditionMet()) {
+                // If conditions aren't met, the assertion is ignored
+                continue
+            } else {
+                val isValid = assertion.isValid(param)
+                if (!isValid) {
+                    result.addFailureAssertion(assertion)
+                }
             }
         }
         return result
     }
 
     fun <A : Assertion<T>> assert(assertion: A): A {
+        assertion.conditions = conditionStack.asList()
         assertions.add(assertion)
         return assertion
     }
 
     fun clear() {
         assertions.clear()
+    }
+
+    fun condition(condition: Condition, builder: Approver<T>.() -> Unit) {
+        conditionStack.push(condition)
+        this.builder()
+        conditionStack.pop()
     }
 }
 
